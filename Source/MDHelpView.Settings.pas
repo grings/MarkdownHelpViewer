@@ -43,12 +43,14 @@ uses
 const
   MaxfontSize = 30;
   MinfontSize = 8;
+  ToolButtonsWidth = 80;
 
   Settings_Folder = 'MarkdownHelpViewer';
   MAIN_WINDOW = 'MainWindow';
   HTML_VIEWER = 'HtmlViever';
   VCL_STYLE = 'VCLStyle';
   PDF_SETTINGS = 'PDFPageSettins';
+  DEFAULT_CHECK_DAYS = 7;
 
 type
   TThemeSelection = (tsAsWindows, tsDarkTheme, tsLightTheme);
@@ -77,6 +79,8 @@ type
   TViewerSettings = class
   private
     FPageControlSize: Integer;
+    FVersionCheckTime: TDateTime;
+    FDaysForNextCheck: Integer;
     FPageControlVisible: Boolean;
     FVCLStyleName: string;
 
@@ -98,6 +102,7 @@ type
     FDownloadFromWEB: Boolean;
     FButtonDrawRounded: Boolean;
     FToolbarDrawRounded: Boolean;
+    FToolbarButtonWidth: Integer;
     procedure SetDownloadFromWEB(const AValue: Boolean);
     function GetUseDarkStyle: Boolean;
     function GetButtonTextColor: TColor;
@@ -113,7 +118,9 @@ type
     procedure SetShowToolbarCaptions(const AValue: Boolean);
     procedure SetUseColoredIcons(const AValue: Boolean);
     procedure SetButtonDrawRounded(const Value: Boolean);
-    procedure SetToolbarDrawRounded(const Value: Boolean);
+    procedure SetToolbarDrawRounded(const AValue: Boolean);
+    procedure SetToolbarButtonWidth(const AValue: Integer);
+    procedure SetDaysForNextCheck(const Value: Integer);
   protected
     FIniFile: TIniFile;
   public
@@ -132,6 +139,7 @@ type
       AHTMLFontSize: Integer; AEditorVisible: Boolean);
     procedure ReadSettings; virtual;
     procedure WriteSettings; virtual;
+    function IsTimeToCheckNewVersion: Boolean;
 
     property UseDarkStyle: Boolean read GetUseDarkStyle;
     property ButtonTextColor: TColor read GetButtonTextColor;
@@ -153,12 +161,15 @@ type
 
     property ButtonDrawRounded: Boolean read FButtonDrawRounded write SetButtonDrawRounded;
     property ToolbarDrawRounded: Boolean read FToolbarDrawRounded write SetToolbarDrawRounded;
+    property ToolbarButtonWidth: Integer read FToolbarButtonWidth write SetToolbarButtonWidth;
 
     property WindowState: TWindowState read FWindowState write SetWindowState;
     property WindowWidth: Integer read FWindowWidth write SetWindowWidth;
     property WindowTop: Integer read FWindowTop write SetWindowTop;
     property WindowLeft: Integer read FWindowLeft write SetWindowLeft;
     property WindowHeight: Integer read FWindowHeight write SetWindowHeight;
+
+    property DaysForNextCheck: Integer read FDaysForNextCheck write SetDaysForNextCheck;
   end;
 
 implementation
@@ -322,11 +333,25 @@ begin
     Result := FThemeSelection = tsDarkTheme;
 end;
 
+function TViewerSettings.IsTimeToCheckNewVersion: Boolean;
+begin
+  if FDaysForNextCheck >= 0 then
+  begin
+    Result := Now() > FVersionCheckTime + FDaysForNextCheck;
+    if Result then
+      FVersionCheckTime := Now(); //Update Next time for check
+  end
+  else
+    Result := False;
+end;
+
 procedure TViewerSettings.ReadSettings;
 var
   LLanguage: string;
   LDefaultLanguage: TAppLanguage;
 begin
+  FVersionCheckTime := FIniFile.ReadDateTime('Global', 'VersionCheckTime', Now());
+  FDaysForNextCheck := FIniFile.ReadInteger('Global', 'DaysForNextCheck', DEFAULT_CHECK_DAYS);
   PageControlVisible := FIniFile.ReadBool(MAIN_WINDOW, 'PageControlVisible', True);
   PageControlSize := FIniFile.ReadInteger(MAIN_WINDOW, 'PageControlSize', 300);
   ActivePageIndex := FIniFile.ReadInteger(MAIN_WINDOW, 'ActivePageIndex', 0);
@@ -340,6 +365,7 @@ begin
   UseColoredIcons := FIniFile.ReadBool(MAIN_WINDOW, 'UseColoredIcons', false);
 
   ToolbarDrawRounded := FIniFile.ReadBool(MAIN_WINDOW, 'ToolbarDrawRounded', false);
+  ToolbarButtonWidth := FIniFile.ReadInteger(MAIN_WINDOW, 'ToolbarButtonWidth', ToolButtonsWidth);
   ButtonDrawRounded := FIniFile.ReadBool(MAIN_WINDOW, 'ButtonDrawRounded', false);
 
   LLanguage := PreferredUILanguages;
@@ -388,10 +414,14 @@ begin
   FShowToolbarCaptions := AValue;
 end;
 
-procedure TViewerSettings.SetToolbarDrawRounded(
-  const Value: Boolean);
+procedure TViewerSettings.SetToolbarButtonWidth(const AValue: Integer);
 begin
-  FToolbarDrawRounded := Value;
+  FToolbarButtonWidth := AValue;
+end;
+
+procedure TViewerSettings.SetToolbarDrawRounded(const AValue: Boolean);
+begin
+  FToolbarDrawRounded := AValue;
 end;
 
 procedure TViewerSettings.SetUseColoredIcons(const AValue: Boolean);
@@ -436,6 +466,8 @@ end;
 
 procedure TViewerSettings.WriteSettings;
 begin
+  FIniFile.WriteDateTime('Global', 'VersionCheckTime', FVersionCheckTime);
+  FIniFile.WriteInteger('Global', 'DaysForNextCheck', FDaysForNextCheck);
   FIniFile.WriteBool(MAIN_WINDOW, 'PageControlVisible', FPageControlVisible);
   FIniFile.WriteInteger(MAIN_WINDOW, 'PageControlSize', Round(FPageControlSize));
   FIniFile.WriteInteger(MAIN_WINDOW, 'ActivePageIndex', FActivePageIndex);
@@ -448,6 +480,8 @@ begin
   FIniFile.WriteBool(MAIN_WINDOW, 'UseColoredIcons', FUseColoredIcons);
   FIniFile.WriteInteger(MAIN_WINDOW, 'GUILanguage', Ord(FGUILanguage));
   FIniFile.WriteBool(MAIN_WINDOW, 'ToolbarDrawRounded', ToolbarDrawRounded);
+  FIniFile.WriteInteger(MAIN_WINDOW, 'ToolbarButtonWidth', ToolbarButtonWidth);
+
   FIniFile.WriteBool(MAIN_WINDOW, 'ButtonDrawRounded', ButtonDrawRounded);
 
   FIniFile.WriteInteger(HTML_VIEWER, 'HTMLFontSize', FHTMLFontSize);
@@ -474,6 +508,11 @@ end;
 procedure TViewerSettings.SetButtonDrawRounded(const Value: Boolean);
 begin
   FButtonDrawRounded := Value;
+end;
+
+procedure TViewerSettings.SetDaysForNextCheck(const Value: Integer);
+begin
+  FDaysForNextCheck := Value;
 end;
 
 procedure TViewerSettings.SetDownloadFromWEB(const AValue: Boolean);

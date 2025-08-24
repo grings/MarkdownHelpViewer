@@ -1,6 +1,6 @@
 ﻿# Markdown Help Viewer [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
-**Latest Version 2.3.5 - 23 Mar 2025**
+**Latest Version 2.3.6 - 24 Aug 2025**
 
 **An integrated help system based on files in Markdown format (and also html), for Delphi and Windows applications**
 
@@ -15,15 +15,21 @@
 - For editing and prepare the Help manual of your application we suggest to use the Editor contained into
 ["Markdown Shell Extensions"](https://github.com/EtheaDev/MarkdownShellExtensions) project.
 
+![Delphi Support](/Setup/SupportingDelphi.jpg)
+
+Related links: [embarcadero.com][3] - [learndelphi.org][4]
+
 ### Features
 
-- Supports Windows 8, 10 and 11 (for 32 bits and 64 bits).
+- Supports Windows 10 and 11 (for 32 bits and 64 bits).
 
 - Themes (Dark and Light) according to user preferences of Windows Theme
 
 - Auto-detect Index file in the working folder
 
-- Very easy to integrate into Delphi Application
+- Very easy to integrate into Delphi Application, also in "embedded" mode.
+
+- Automatic check and download when a new version is available
 
 ### Setup using the Installer
 
@@ -97,6 +103,14 @@ Then the interface searches in the same folder of default file (specified into A
 - At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)
 
 ## Release Notes ##
+24 Aug 2025: ver. 2.3.6
+- Added support for Delphi 13
+- Automatic search for index name Home_Index.md before Index.md
+- Enlarged Buttons to 80 pixels to fit translations
+- Added Russian translations and updated other translations
+- Translation Repository (xml) in Unicode format
+- Removed Google Chart API support
+- Fixed Restore Position in monitor with High-DPI
 
 23 Mar 2025: ver. 2.3.5
 - Added Custom Event Handlers to TMarkdownViewer component (OnFileNameClicked, OnURLClicked)
@@ -253,10 +267,6 @@ Copyright (c) 2009 - 2023 by HtmlViewer Team
 
 [StyledComponents](https://github.com/EtheaDev/StyledComponents)
 
-![Delphi Support](/Setup/SupportingDelphi.jpg)
-
-Related links: [embarcadero.com][3] - [learndelphi.org][4]
-
 [1]: https://github.com/EtheaDev/MarkdownHelpViewer/releases/latest/download/MarkDownHelpViewerSetup.exe
 
 [2]: https://opensource.org/licenses/Apache-2.0
@@ -264,7 +274,5 @@ Related links: [embarcadero.com][3] - [learndelphi.org][4]
 [3]: https://www.embarcadero.com/
 
 [4]: https://learndelphi.org/
-
-[Google Chart API]: https://developers.google.com/chart/infographics/docs/formulas
 
 [Reference-style Links]: https://www.markdownguide.org/basic-syntax/#reference-style-links

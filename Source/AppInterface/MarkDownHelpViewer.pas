@@ -177,6 +177,7 @@ begin
   Result := AFileName;
 
   if not FindHelpFile(Result,0,'_Index', AFileExtensions) and //Try with HelpFileName_Index.ext
+    not FindHelpFile(Result,0,'Home_Index', AFileExtensions) and //Try with Home_Index.ext (for VitePress Docs)
     not FindHelpFile(Result,0,'Index', AFileExtensions) and //Try with Index.ext
     not FindHelpFile(Result,0,'Content', AFileExtensions) then //Try with Content.ext
     Result := '';

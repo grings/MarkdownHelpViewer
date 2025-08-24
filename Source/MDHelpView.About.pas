@@ -29,9 +29,11 @@ unit MDHelpView.About;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, pngimage, Vcl.ImgList, System.ImageList,
-  Vcl.Imaging.GIFImg, SVGIconImage,
+  WinApi.Messages, System.SysUtils, System.Variants, System.Types,
+  System.Classes, Vcl.Controls, Vcl.Forms,
+  Vcl.ImgList, System.ImageList, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.Imaging.GIFImg, Vcl.ComCtrls,
+  SVGIconImage,
   {$IFDEF STYLEDCOMPONENTS}
   Vcl.StyledComponentsHooks,
   {$ENDIF}
@@ -42,9 +44,11 @@ resourcestring
 
 const
   HELP_URL = 'https://github.com/EtheaDev/MarkdownHelpViewer';
+  GIT_HUB_URL = 'https://github.com/EtheaDev/MarkdownHelpViewer';
+  SETUP_FILENAME = 'MarkDownHelpViewerSetup.exe';
 type
   TFrmAbout = class(TFormHook)
-    Panel1:    TPanel;
+    BottomPanel: TPanel;
     btnOK: TButton;
     TitleLabel: TLabel;
     LabelVersion: TLabel;
@@ -62,26 +66,125 @@ type
     procedure LinkLabel1LinkClick(Sender: TObject; const Link: string;
       LinkType: TSysLinkType);
     procedure FormShow(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     FTitle: string;
+    FStopDownload: Boolean;
+    FExpectedSize: Int64;
+    FProgressBar: TProgressBar;
     procedure SetTitle(const Value: string);
+    procedure DownloadAndInstallSetup;
+    procedure UpdateGUI(const ADownloadInProgress: Boolean);
     procedure WMCopyData(var Message: TMessage); message WM_COPYDATA;
   public
+    procedure HttpClientReceiveData(const Sender: TObject;
+      AContentLength, AReadCount: Int64; var Abort: Boolean);
     procedure DisableButtons;
     property Title: string read FTitle write SetTitle;
   end;
 
 procedure ShowAboutForm(const AParentRect: TRect;
-  const ATitle: string);
+  const ATitle: string; const DownloadNewSetup: Boolean);
 procedure HideAboutForm;
+
+function AcceptNewSetup(const AShowMsg: Boolean): Boolean;
+function GetCurrentVersion(const AApplicationExeName: TFileName): string;
 
 implementation
 
 uses
-  ShellApi
-  , MDHelpView.Misc, MDHelpView.Main;
+  WinApi.ShellApi
+  , System.UITypes
+  , Winapi.Windows
+  , Vcl.Dialogs
+  , Vcl.Graphics
+  , MDHelpView.Misc
+  , MDHelpView.Main
+  , GitHubAPI
+  , MDHelpView.Messages
+  ;
 
 {$R *.dfm}
+
+var
+ _HttpClient: TGitHubHttpClient;
+
+function GetCurrentVersion(const AApplicationExeName: TFileName): string;
+var
+  LMajorVersion, LMinorVersion, LRelease: integer;
+  InfoSize, Wnd: DWORD;
+  VerBuf: Pointer;
+  FI: PVSFixedFileInfo;
+  VerSize: DWORD;
+begin
+  LMajorVersion := 0;
+  LMinorVersion := 0;
+  LRelease := 0;
+
+  InfoSize := GetFileVersionInfoSize(PChar(AApplicationExeName), Wnd);
+  if InfoSize > 0 then
+  begin
+    GetMem(VerBuf, InfoSize);
+    try
+      if GetFileVersionInfo(PChar(AApplicationExeName), Wnd, InfoSize, VerBuf) then
+      begin
+        if VerQueryValue(VerBuf, '\', Pointer(FI), VerSize) then
+        begin
+          LMajorVersion := HIWORD(FI.dwFileVersionMS);
+          LMinorVersion := LOWORD(FI.dwFileVersionMS);
+          LRelease := HIWORD(FI.dwFileVersionLS);
+        end;
+      end;
+    finally
+      FreeMem(VerBuf);
+    end;
+  end;
+  Result := Format('v%d.%d.%d', [LMajorVersion,LMinorVersion,LRelease]);
+end;
+
+function AcceptNewSetup(const AShowMsg: Boolean): Boolean;
+var
+  LCurrentVersion, LNewVersion: string;
+begin
+  while True do
+  begin
+    Screen.Cursor := crHourGlass;
+    try try
+      LCurrentVersion := GetCurrentVersion(Application.ExeName);
+      if not Assigned(_HttpClient) then
+        _HttpClient := TGitHubHttpClient.Create(nil);
+      Result := _HttpClient.IsNewVersionAvailable(
+        LCurrentVersion, GIT_HUB_URL, LNewVersion);
+      Break;  
+    except
+      on E: ECheckNewVersionException do
+      begin
+        if TaskMessageDlg(CHECK_FOR_UPDATE_BTN,
+          Format(Error_Checking_New_Version, [E.Message]),
+          TMsgDlgType.mtWarning,
+          [mbAbort, mbRetry],0, mbAbort) = mrRetry then
+            Continue
+          else
+            Exit(False);  
+      end
+      else
+        raise;
+    end;
+    finally
+      Screen.Cursor := crDefault;
+    end;
+  end;
+  if Result then
+  begin
+    Result := MessageDlg(Format(NEW_VERSION_AVAILABLE,
+      [LCurrentVersion, LNewVersion]),
+      TMsgDlgType.mtWarning, [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo, TMsgDlgBtn.mbCancel],
+      0) = mrYes;
+  end
+  else if AShowMsg then
+    MessageDlg(Format(NEW_VERSION_NOT_AVAILABLE,
+      [LCurrentVersion]), TMsgDlgType.mtInformation, [TMsgDlgBtn.mbOK], 0);
+end;
 
 function GetAboutForm: TFrmAbout;
 var
@@ -105,7 +208,8 @@ begin
     LFrm.Close;
 end;
 
-procedure ShowAboutForm(const AParentRect: TRect; const ATitle: string);
+procedure ShowAboutForm(const AParentRect: TRect; const ATitle: string;
+  const DownloadNewSetup: Boolean);
 var
   LFrm: TFrmAbout;
 begin
@@ -124,6 +228,7 @@ begin
       LFrm.Top := (AParentRect.Top + AParentRect.Bottom - LFrm.Height) div 2;
     end;
     LFrm.Title := ATitle;
+    LFrm.FStopDownload := not DownloadNewSetup;
     LFrm.ShowModal;
   finally
     LFrm.Free;
@@ -131,14 +236,12 @@ begin
 end;
 
 procedure TFrmAbout.btnCheckUpdatesClick(Sender: TObject);
-var
-  LBinaryPath, LUpdaterPath: string;
 begin
-  LBinaryPath := GetModuleLocation();
-  LUpdaterPath := ExtractFilePath(LBinaryPath)+'Updater.exe';
-  ShellExecute(0, 'open', PChar(LUpdaterPath), PChar(Format('"%s"', [LBinaryPath])), '', SW_SHOWNORMAL);
+  if not FStopDownload then
+    FStopDownload := True
+  else if AcceptNewSetup(True) then
+    DownloadAndInstallSetup;
 end;
-
 
 procedure TFrmAbout.btnOKClick(Sender: TObject);
 begin
@@ -158,8 +261,56 @@ begin
   btnCheckUpdates.OnClick := nil;
 end;
 
+procedure TFrmAbout.UpdateGUI(const ADownloadInProgress: Boolean);
+begin
+  btnIssues.Enabled := not ADownloadInProgress;
+  btnOK.Enabled := not ADownloadInProgress;
+  FProgressBar.Visible := ADownloadInProgress;
+  if ADownloadInProgress then
+  begin
+    FStopDownload := False;
+    btnCheckUpdates.Caption := STOP_DOWNLOAD_BTN;
+  end
+  else
+  begin
+    btnCheckUpdates.Caption := CHECK_FOR_UPDATE_BTN;
+  end;
+end;
+
+procedure TFrmAbout.DownloadAndInstallSetup;
+var
+  AOutFileName: TFileName;
+begin
+  UpdateGUI(True);
+  try
+    //Start Download
+    var LSize := _HttpClient.DownloadLatestSetup(
+      SETUP_FILENAME,
+      HttpClientReceiveData,
+      AOutFileName);
+    if LSize <> FExpectedSize then
+    begin
+      if FStopDownload then
+        raise Exception.Create(DOWNLOAD_STOPPED)
+      else
+        raise Exception.Create(DOWNLOADING_ERROR);
+    end;
+  finally
+    UpdateGUI(False);
+  end;
+  ShellExecute(0, 'open', PChar(AOutFileName), nil, nil, SW_SHOWNORMAL);
+  Application.Terminate;
+end;
+
+procedure TFrmAbout.FormActivate(Sender: TObject);
+begin
+  if not FStopDownload then
+    DownloadAndInstallSetup;
+end;
+
 procedure TFrmAbout.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  FStopDownload := True;
   Action := caFree;
 end;
 
@@ -175,12 +326,38 @@ begin
   {$ELSE}
   LabelVersion.Caption := Format('Ver. %s (64bit)', [FileVersionStr]);
   {$ENDIF}
+  //ProgressBar for Download
+  FProgressBar := TProgressBar.Create(Self);
+  FProgressBar.Visible := False;
+  FProgressBar.Align := alBottom;
+  FProgressBar.Height := Round(6 * ScaleFactor);
+  FProgressBar.Parent := BottomPanel;
+  FProgressBar.MarqueeInterval := 1;
+  FProgressBar.Max := 100;
+  btnCheckUpdates.Visible := True;
+  FStopDownload := True;
 end;
 
 procedure TFrmAbout.FormShow(Sender: TObject);
 begin
   if btnOK.CanFocus then
     btnOK.SetFocus;
+end;
+
+procedure TFrmAbout.HttpClientReceiveData(const Sender: TObject; AContentLength,
+  AReadCount: Int64; var Abort: Boolean);
+begin
+  if (AContentLength > 0) then
+  begin
+    if FExpectedSize = 0 then
+      FExpectedSize := AContentLength;
+    var LNewPos := Round(AReadCount * 100 / AContentLength)+10;
+    if LNewPos <= 100 then
+      FProgressBar.Position := LNewPos;
+  end;
+  Application.ProcessMessages;
+  //Abort Download if Stop Download Button was pressed
+  Abort := FStopDownload;
 end;
 
 procedure TFrmAbout.LinkLabel1LinkClick(Sender: TObject; const Link: string;
@@ -201,5 +378,11 @@ begin
   Close;
   MainForm.WMCopyData(Message);
 end;
+
+initialization
+  _HttpClient := nil;
+
+finalization
+  FreeAndNil(_HttpClient);
 
 end.

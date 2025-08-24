@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>  <DATAPACKET Version="2.0">
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>  <DATAPACKET Version="2.0">
 <METADATA>
 <FIELDS>
-<FIELD attrname="ComponentClassName" fieldtype="string" required="true" WIDTH="50"/>
-<FIELD attrname="PropertyName" fieldtype="string" required="true" WIDTH="50"/>
+<FIELD attrname="ComponentClassName" fieldtype="string.uni" required="true" WIDTH="100"/>
+<FIELD attrname="PropertyName" fieldtype="string.uni" required="true" WIDTH="100"/>
 <FIELD attrname="PropertyTrxKind" fieldtype="i4" required="true"/>
 </FIELDS>
 <PARAMS/>

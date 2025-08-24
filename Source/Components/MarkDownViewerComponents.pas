@@ -503,10 +503,10 @@ end;
 
 function TCustomMarkdownViewer.IsPrintMarginStored: Boolean;
 begin
-  Result := (Round(PrintMarginBottom*10000000000) <> 8000000000) or
-    (Round(PrintMarginLeft*10000000000) <> 8000000000) or
-    (Round(PrintMarginRight*10000000000) <> 8000000000) or
-    (Round(PrintMarginTop*10000000000) <> 8000000000);
+  Result := (Round(PrintMarginBottom*10000000000) <> 20000000000) or
+    (Round(PrintMarginLeft*10000000000) <> 20000000000) or
+    (Round(PrintMarginRight*10000000000) <> 20000000000) or
+    (Round(PrintMarginTop*10000000000) <> 20000000000);
 end;
 
 function TCustomMarkdownViewer.IsPrintScaleStored: Boolean;

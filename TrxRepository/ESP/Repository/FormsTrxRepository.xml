@@ -1,140 +1,146 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--stat:#=122
-*=121
-@=1
+<!--stat:#=128
+*=124
+@=4
 Lang:=ESP
 :stat-->  <DATAPACKET Version="2.0">
 <METADATA>
 <FIELDS>
-<FIELD attrname="OriginalValue" fieldtype="string" required="true" WIDTH="250"/>
-<FIELD attrname="Translation" fieldtype="string" WIDTH="250"/>
+<FIELD attrname="OriginalValue" fieldtype="string.uni" required="true" WIDTH="500"/>
+<FIELD attrname="Translation" fieldtype="string.uni" WIDTH="500"/>
 <FIELD attrname="Count" fieldtype="i4"/>
-<FIELD attrname="Status" fieldtype="string" required="true" WIDTH="1"/>
+<FIELD attrname="Status" fieldtype="string.uni" required="true" WIDTH="2"/>
 </FIELDS>
 <PARAMS/>
 </METADATA>
 <ROWDATA>
-<ROW OriginalValue="Check for updates" Translation="Buscar actualizaciones" Count="9" Status="*"/>
-<ROW OriginalValue="Submit issue..." Translation="Enviar problema..." Count="9" Status="*"/>
-<ROW OriginalValue="CLOSE" Translation="CERRAR" Count="9" Status="*"/>
-<ROW OriginalValue="Version" Translation="Versión" Count="9" Status="*"/>
-<ROW OriginalValue="&lt;a href=&quot;https://github.com/EtheaDev/MarkdownHelpViewer&quot;&gt;https://github.com/EtheaDev/MarkdownHelpViewer&lt;/a&gt;" Translation="&lt;a href=&quot;https://github.com/EtheaDev/MarkdownHelpViewer&quot;&gt;https://github.com/EtheaDev/MarkdownHelpViewer&lt;/a&gt;" Count="9" Status="*"/>
-<ROW OriginalValue="Author:" Translation="Autor:" Count="9" Status="*"/>
-<ROW OriginalValue="Carlo Barazzetta" Translation="Carlo Barazzetta" Count="9" Status="*"/>
-<ROW OriginalValue="https://github.com/EtheaDev/MarkdownHelpViewer" Translation="https://github.com/EtheaDev/MarkdownHelpViewer" Count="9" Status="*"/>
-<ROW OriginalValue="Copyright © 2023-2025 all rights reserved." Translation="Copyright © 2023-2025 all rights reserved." Count="9" Status="*"/>
-<ROW OriginalValue="Contributors:" Translation="Colaboradores:" Count="9" Status="*"/>
-<ROW OriginalValue="Nicolò Boccignone, Emanuele Biglia" Translation="Nicolò Boccignone, Emanuele Biglia" Count="9" Status="*"/>
-<ROW OriginalValue="Other libraries from Ethea:" Translation="Otras librerías de Ethea:" Count="9" Status="*"/>
-<ROW OriginalValue="SVGIconImageList" Translation="SVGIconImageList" Count="9" Status="*"/>
-<ROW OriginalValue="https://github.com/EtheaDev/SVGIconImageList/" Translation="https://github.com/EtheaDev/SVGIconImageList/" Count="9" Status="*"/>
-<ROW OriginalValue="StyledComponents" Translation="StyledComponents" Count="9" Status="*"/>
-<ROW OriginalValue="https://github.com/EtheaDev/StyledComponents" Translation="https://github.com/EtheaDev/StyledComponents" Count="9" Status="*"/>
-<ROW OriginalValue="Delphi MarkdownProcessor" Translation="Delphi MarkdownProcessor" Count="9" Status="*"/>
-<ROW OriginalValue="https://github.com/EtheaDev/MarkdownProcessor" Translation="https://github.com/EtheaDev/MarkdownProcessor" Count="9" Status="*"/>
-<ROW OriginalValue="Third parties libraries:" Translation="Librerías de terceros:" Count="9" Status="*"/>
-<ROW OriginalValue="OpenSLL Library: Cryptography and SSL/TLS Toolkit" Translation="OpenSLL Library: Cryptography and SSL/TLS Toolkit" Count="9" Status="*"/>
-<ROW OriginalValue="Copyright © 1998-2018 The OpenSSL Project.  All rights reserved." Translation="Copyright © 1998-2018 The OpenSSL Project.  All rights reserved." Count="9" Status="*"/>
-<ROW OriginalValue="Delphi Markdown" Translation="Delphi Markdown" Count="9" Status="*"/>
-<ROW OriginalValue="https://github.com/grahamegrieve/delphi-markdown" Translation="https://github.com/grahamegrieve/delphi-markdown" Count="9" Status="*"/>
-<ROW OriginalValue="Copyright (c) 2011+, Health Intersections Pty Ltd All rights reserved" Translation="Copyright (c) 2011+, Health Intersections Pty Ltd All rights reserved" Count="9" Status="*"/>
-<ROW OriginalValue="Synopse/SynPDF https://github.com/synopse/SynPDF" Translation="Synopse/SynPDF https://github.com/synopse/SynPDF" Count="9" Status="*"/>
-<ROW OriginalValue="Copyright © Synopse: all right reserved." Translation="Copyright © Synopse: all right reserved." Count="9" Status="*"/>
-<ROW OriginalValue="HtmlToPdf https://github.com/MuzioValerio/HtmlToPdf" Translation="HtmlToPdf https://github.com/MuzioValerio/HtmlToPdf" Count="9" Status="*"/>
-<ROW OriginalValue="Copyright © Muzio Valerio." Translation="Copyright © Muzio Valerio." Count="9" Status="*"/>
-<ROW OriginalValue="- Image32 Library - http://www.angusj.com/delphi/image32/Docs/_Body.htm" Translation="- Image32 Library - http://www.angusj.com/delphi/image32/Docs/_Body.htm" Count="9" Status="*"/>
-<ROW OriginalValue="Copyright ©2019-2023 Angus Johnson." Translation="Copyright ©2019-2023 Angus Johnson." Count="9" Status="*"/>
-<ROW OriginalValue="HTMLViewer - https://github.com/BerndGabriel/HtmlViewer" Translation="HTMLViewer - https://github.com/BerndGabriel/HtmlViewer" Count="9" Status="*"/>
-<ROW OriginalValue="Copyright (c) 1995 - 2008 by L. David Baldwin" Translation="Copyright (c) 1995 - 2008 by L. David Baldwin" Count="9" Status="*"/>
-<ROW OriginalValue="Copyright (c) 1995 - 2023 by Anders Melander (DitherUnit.pas)" Translation="Copyright (c) 1995 - 2023 by Anders Melander (DitherUnit.pas)" Count="9" Status="*"/>
-<ROW OriginalValue="Copyright (c) 1995 - 2023 by Ron Collins (HtmlGif1.pas)" Translation="Copyright (c) 1995 - 2023 by Ron Collins (HtmlGif1.pas)" Count="9" Status="*"/>
-<ROW OriginalValue="Copyright (c) 2008 - 2009 by Sebastian Zierer (Delphi 2009 Port)" Translation="Copyright (c) 2008 - 2009 by Sebastian Zierer (Delphi 2009 Port)" Count="9" Status="*"/>
-<ROW OriginalValue="Copyright (c) 2008 - 2010 by Arvid Winkelsdorf (Fixes)" Translation="Copyright (c) 2008 - 2010 by Arvid Winkelsdorf (Fixes)" Count="9" Status="*"/>
-<ROW OriginalValue="Copyright (c) 2009 - 2023 by HtmlViewer Team" Translation="Copyright (c) 2009 - 2023 by HtmlViewer Team" Count="9" Status="*"/>
-<ROW OriginalValue="Markdown HelpViewer" Translation="Markdown HelpViewer" Count="9" Status="*"/>
-<ROW OriginalValue="About" Translation="Info" Count="18" Status="*"/>
-<ROW OriginalValue="Show Application Information" Translation="Mostrar información de la aplicación" Count="18" Status="*"/>
-<ROW OriginalValue="Export..." Translation="Exportar..." Count="18" Status="*"/>
-<ROW OriginalValue="Export to HTML help files" Translation="Exportar en archivos de ayuda HTML" Count="18" Status="*"/>
-<ROW OriginalValue="&amp;Open..." Translation="&amp;Abrir..." Count="18" Status="*"/>
-<ROW OriginalValue="Open an existing Markdown or HTML file..." Translation="Abra un archivo Markdown o HTML existente..." Count="18" Status="*"/>
-<ROW OriginalValue="Hide" Translation="Ocultar" Count="18" Status="*"/>
-<ROW OriginalValue="Hide Content/Search Panel" Translation="Ocultar contenido/panel de búsqueda" Count="18" Status="*"/>
-<ROW OriginalValue="Home" Translation="Inicio" Count="18" Status="*"/>
-<ROW OriginalValue="Back to Home File" Translation="Volver al archivo de inicio" Count="18" Status="*"/>
-<ROW OriginalValue="&amp;Next" Translation="&amp;Siguiente" Count="18" Status="*"/>
-<ROW OriginalValue="Next Opened File" Translation="Archivo abierto siguiente" Count="18" Status="*"/>
-<ROW OriginalValue="&amp;Previous" Translation="&amp;Anterior" Count="18" Status="*"/>
-<ROW OriginalValue="Previous Opened File" Translation="Archivo abierto anterior" Count="18" Status="*"/>
-<ROW OriginalValue="Print" Translation="Imprimir" Count="9" Status="*"/>
-<ROW OriginalValue="Print file in PDF" Translation="Imprimir archivo en PDF" Count="9" Status="*"/>
-<ROW OriginalValue="Refresh" Translation="Actualizar" Count="18" Status="*"/>
-<ROW OriginalValue="Refresh content (reloading file)" Translation="Actualizar contenido (volver a cargar el archivo)" Count="18" Status="*"/>
-<ROW OriginalValue="Save PDF" Translation="Salva PDF" Count="18" Status="*"/>
-<ROW OriginalValue="Save current file in PDF format..." Translation="Salvar el archivo actual en formato PDF..." Count="18" Status="*"/>
-<ROW OriginalValue="Search" Translation="Buscar" Count="27" Status="*"/>
-<ROW OriginalValue="Search keyword into files" Translation="Buscar palabra clave en archivos" Count="18" Status="*"/>
-<ROW OriginalValue="Settings" Translation="Config." Count="27" Status="*"/>
-<ROW OriginalValue="Show Settings" Translation="Mostrar configuración" Count="18" Status="*"/>
-<ROW OriginalValue="Show" Translation="Mostrar" Count="9" Status="*"/>
-<ROW OriginalValue="Show Content/Search Panel" Translation="Mostrar contenido/panel de búsqueda" Count="9" Status="*"/>
-<ROW OriginalValue="View" Translation="Vista" Count="36" Status="*"/>
-<ROW OriginalValue="View File" Translation="Ver archivo" Count="36" Status="*"/>
-<ROW OriginalValue="Insert file name to search:" Translation="Ingrese el nombre del archivo a buscar:" Count="10" Status="*"/>
-<ROW OriginalValue="Input the keyword to search into files in the working folder:" Translation="Ingrese palabra clave para buscar en archivos de la carpeta de trabajo:" Count="10" Status="*"/>
-<ROW OriginalValue="Search for file:" Translation="Buscar archivo:" Count="10" Status="*"/>
-<ROW OriginalValue="Input keyword to search in files:" Translation="Ingrese palabra clave para buscar en archivos:" Count="10" Status="*"/>
-<ROW OriginalValue="Select file to view:" Translation="Seleccione el archivo a visualizar:" Count="18" Status="*"/>
-<ROW OriginalValue="Markdown Tranformation Dialect" Translation="Dialecto de transformación Markdown" Count="9" Status="*"/>
-<ROW OriginalValue="DaringFireball" Translation="DaringFireball" Count="18" Status="*"/>
-<ROW OriginalValue="CommonMark" Translation="CommonMark" Count="18" Status="*"/>
-<ROW OriginalValue="Transformation:" Translation="Transformación:" Count="9" Status="*"/>
-<ROW OriginalValue="Markdown Help Viewer" Translation="Markdown Help Viewer" Count="9" Status="*"/>
-<ROW OriginalValue="Working Dir" Translation="Directorio de trabajo" Count="9" Status="*"/>
-<ROW OriginalValue="List of Files into Working Directory" Translation="Lista de archivos en el directorio de trabajo" Count="9" Status="*"/>
-<ROW OriginalValue="Content/Index" Translation="Contenido/Índice" Count="9" Status="*"/>
-<ROW OriginalValue="Markdown Content/Index" Translation="Contenido/índice de Markdown" Count="9" Status="*"/>
-<ROW OriginalValue="Colored icons" Translation="Iconos a color" Count="9" Status="*"/>
-<ROW OriginalValue="Download from WEB" Translation="Descargar desde WEB" Count="9" Status="*"/>
-<ROW OriginalValue="Font name" Translation="Nombre de la fuente" Count="9" Status="*"/>
-<ROW OriginalValue="Size" Translation="Tamaño" Count="9" Status="*"/>
-<ROW OriginalValue="12" Translation="12" Count="9" Status="*"/>
-<ROW OriginalValue="HTML Text (default)" Translation="Texto HTML (predeterminado)" Count="9" Status="*"/>
-<ROW OriginalValue="Bottom margin" Translation="Margen inferior" Count="10" Status="*"/>
-<ROW OriginalValue="Left margin" Translation="Margen izquierdo" Count="10" Status="*"/>
-<ROW OriginalValue="Right margin" Translation="Margen derecho" Count="10" Status="*"/>
-<ROW OriginalValue="Top margin" Translation="Margen superior" Count="10" Status="*"/>
-<ROW OriginalValue="Markdown processor options" Translation="Opciones del procesador Markdown" Count="9" Status="*"/>
-<ROW OriginalValue="Back" Translation="Atrás" Count="9" Status="*"/>
-<ROW OriginalValue="Preview" Translation="Vista previa" Count="18" Status="*"/>
-<ROW OriginalValue="Theme" Translation="Tema" Count="27" Status="*"/>
-<ROW OriginalValue="Font" Translation="Fuente" Count="18" Status="*"/>
-<ROW OriginalValue="PDF layout" Translation="Diseño PDF" Count="18" Status="*"/>
-<ROW OriginalValue="Orientation" Translation="Orientación" Count="9" Status="*"/>
-<ROW OriginalValue="Portrait" Translation="Retrato" Count="9" Status="*"/>
-<ROW OriginalValue="Landscape" Translation="Horizontal" Count="9" Status="*"/>
-<ROW OriginalValue="Page size" Translation="Tamaño de página" Count="9" Status="*"/>
-<ROW OriginalValue="A4" Translation="A4" Count="9" Status="*"/>
-<ROW OriginalValue="A5" Translation="A5" Count="9" Status="*"/>
-<ROW OriginalValue="A3" Translation="A3" Count="9" Status="*"/>
-<ROW OriginalValue="A2" Translation="A2" Count="9" Status="*"/>
-<ROW OriginalValue="A1" Translation="A1" Count="9" Status="*"/>
-<ROW OriginalValue="A0" Translation="A0" Count="9" Status="*"/>
-<ROW OriginalValue="Letter" Translation="Carta" Count="9" Status="*"/>
-<ROW OriginalValue="Legal" Translation="Legal" Count="9" Status="*"/>
-<ROW OriginalValue="Dialect:" Translation="Dialecto:" Count="9" Status="*"/>
-<ROW OriginalValue="Images loading options" Translation="Opciones de carga de imágenes" Count="9" Status="*"/>
-<ROW OriginalValue="Rescaling to viewer size" Translation="Redimensionar al tamaño del visor" Count="9" Status="*"/>
-<ROW OriginalValue="Selected Theme" Translation="Tema seleccionado" Count="9" Status="*"/>
-<ROW OriginalValue="Show Captions" Translation="Mostrar títulos descriptivos" Count="9" Status="*"/>
-<ROW OriginalValue="Same as Windows" Translation="Igual que Windows" Count="9" Status="*"/>
-<ROW OriginalValue="Force Dark" Translation="Forzar tema oscuro" Count="9" Status="*"/>
-<ROW OriginalValue="Force Light" Translation="Forzar tema claro" Count="9" Status="*"/>
-<ROW OriginalValue="Toolbar" Translation="Barra de herramientas" Count="9" Status="*"/>
-<ROW OriginalValue="Language:" Translation="Idioma:" Count="9" Status="*"/>
-<ROW OriginalValue="User interface" Translation="Interfaz de usuario" Count="9" Status="*"/>
-<ROW OriginalValue="Show selection in Viewer" Translation="Mostrar selección en el visor" Count="2" Status="@"/>
-<ROW OriginalValue="Buttons" Translation="Botones" Count="1" Status="*"/>
-<ROW OriginalValue="Rounded buttons" Translation="Botones redondeados" Count="2" Status="*"/>
+<ROW OriginalValue="Check for updates" Translation="Buscar actualizaciones" Count="12" Status="*"/>
+<ROW OriginalValue="Submit issue..." Translation="Enviar problema..." Count="12" Status="*"/>
+<ROW OriginalValue="CLOSE" Translation="CERRAR" Count="12" Status="*"/>
+<ROW OriginalValue="Version" Translation="Versi&#243;n" Count="12" Status="*"/>
+<ROW OriginalValue="&lt;a href=&quot;https://github.com/EtheaDev/MarkdownHelpViewer&quot;&gt;https://github.com/EtheaDev/MarkdownHelpViewer&lt;/a&gt;" Translation="&lt;a href=&quot;https://github.com/EtheaDev/MarkdownHelpViewer&quot;&gt;https://github.com/EtheaDev/MarkdownHelpViewer&lt;/a&gt;" Count="12" Status="*"/>
+<ROW OriginalValue="Author:" Translation="Autor:" Count="12" Status="*"/>
+<ROW OriginalValue="Carlo Barazzetta" Translation="Carlo Barazzetta" Count="12" Status="*"/>
+<ROW OriginalValue="https://github.com/EtheaDev/MarkdownHelpViewer" Translation="https://github.com/EtheaDev/MarkdownHelpViewer" Count="12" Status="*"/>
+<ROW OriginalValue="Copyright &#169; 2023-2025 all rights reserved." Translation="Copyright &#169; 2023-2025 all rights reserved." Count="12" Status="*"/>
+<ROW OriginalValue="Contributors:" Translation="Colaboradores:" Count="12" Status="*"/>
+<ROW OriginalValue="Nicol&#242; Boccignone, Emanuele Biglia" Translation="Nicol&#242; Boccignone, Emanuele Biglia" Count="12" Status="*"/>
+<ROW OriginalValue="Other libraries from Ethea:" Translation="Otras librer&#237;as de Ethea:" Count="12" Status="*"/>
+<ROW OriginalValue="SVGIconImageList" Translation="SVGIconImageList" Count="12" Status="*"/>
+<ROW OriginalValue="https://github.com/EtheaDev/SVGIconImageList/" Translation="https://github.com/EtheaDev/SVGIconImageList/" Count="12" Status="*"/>
+<ROW OriginalValue="StyledComponents" Translation="StyledComponents" Count="12" Status="*"/>
+<ROW OriginalValue="https://github.com/EtheaDev/StyledComponents" Translation="https://github.com/EtheaDev/StyledComponents" Count="12" Status="*"/>
+<ROW OriginalValue="Delphi MarkdownProcessor" Translation="Delphi MarkdownProcessor" Count="12" Status="*"/>
+<ROW OriginalValue="https://github.com/EtheaDev/MarkdownProcessor" Translation="https://github.com/EtheaDev/MarkdownProcessor" Count="12" Status="*"/>
+<ROW OriginalValue="Third parties libraries:" Translation="Librer&#237;as de terceros:" Count="12" Status="*"/>
+<ROW OriginalValue="OpenSLL Library: Cryptography and SSL/TLS Toolkit" Translation="OpenSLL Library: Cryptography and SSL/TLS Toolkit" Count="12" Status="*"/>
+<ROW OriginalValue="Copyright &#169; 1998-2018 The OpenSSL Project.  All rights reserved." Translation="Copyright &#169; 1998-2018 The OpenSSL Project.  All rights reserved." Count="12" Status="*"/>
+<ROW OriginalValue="Delphi Markdown" Translation="Delphi Markdown" Count="12" Status="*"/>
+<ROW OriginalValue="https://github.com/grahamegrieve/delphi-markdown" Translation="https://github.com/grahamegrieve/delphi-markdown" Count="12" Status="*"/>
+<ROW OriginalValue="Copyright (c) 2011+, Health Intersections Pty Ltd All rights reserved" Translation="Copyright (c) 2011+, Health Intersections Pty Ltd All rights reserved" Count="12" Status="*"/>
+<ROW OriginalValue="Synopse/SynPDF https://github.com/synopse/SynPDF" Translation="Synopse/SynPDF https://github.com/synopse/SynPDF" Count="12" Status="*"/>
+<ROW OriginalValue="Copyright &#169; Synopse: all right reserved." Translation="Copyright &#169; Synopse: all right reserved." Count="12" Status="*"/>
+<ROW OriginalValue="HtmlToPdf https://github.com/MuzioValerio/HtmlToPdf" Translation="HtmlToPdf https://github.com/MuzioValerio/HtmlToPdf" Count="12" Status="*"/>
+<ROW OriginalValue="Copyright &#169; Muzio Valerio." Translation="Copyright &#169; Muzio Valerio." Count="12" Status="*"/>
+<ROW OriginalValue="- Image32 Library - http://www.angusj.com/delphi/image32/Docs/_Body.htm" Translation="- Image32 Library - http://www.angusj.com/delphi/image32/Docs/_Body.htm" Count="12" Status="*"/>
+<ROW OriginalValue="Copyright &#169;2019-2023 Angus Johnson." Translation="Copyright &#169;2019-2023 Angus Johnson." Count="9" Status="*"/>
+<ROW OriginalValue="HTMLViewer - https://github.com/BerndGabriel/HtmlViewer" Translation="HTMLViewer - https://github.com/BerndGabriel/HtmlViewer" Count="12" Status="*"/>
+<ROW OriginalValue="Copyright (c) 1995 - 2008 by L. David Baldwin" Translation="Copyright (c) 1995 - 2008 by L. David Baldwin" Count="12" Status="*"/>
+<ROW OriginalValue="Copyright (c) 1995 - 2023 by Anders Melander (DitherUnit.pas)" Translation="Copyright (c) 1995 - 2023 by Anders Melander (DitherUnit.pas)" Count="12" Status="*"/>
+<ROW OriginalValue="Copyright (c) 1995 - 2023 by Ron Collins (HtmlGif1.pas)" Translation="Copyright (c) 1995 - 2023 by Ron Collins (HtmlGif1.pas)" Count="12" Status="*"/>
+<ROW OriginalValue="Copyright (c) 2008 - 2009 by Sebastian Zierer (Delphi 2009 Port)" Translation="Copyright (c) 2008 - 2009 by Sebastian Zierer (Delphi 2009 Port)" Count="12" Status="*"/>
+<ROW OriginalValue="Copyright (c) 2008 - 2010 by Arvid Winkelsdorf (Fixes)" Translation="Copyright (c) 2008 - 2010 by Arvid Winkelsdorf (Fixes)" Count="12" Status="*"/>
+<ROW OriginalValue="Copyright (c) 2009 - 2023 by HtmlViewer Team" Translation="Copyright (c) 2009 - 2023 by HtmlViewer Team" Count="12" Status="*"/>
+<ROW OriginalValue="Markdown HelpViewer" Translation="Markdown HelpViewer" Count="12" Status="*"/>
+<ROW OriginalValue="About" Translation="Info" Count="24" Status="*"/>
+<ROW OriginalValue="Show Application Information" Translation="Mostrar informaci&#243;n de la aplicaci&#243;n" Count="24" Status="*"/>
+<ROW OriginalValue="Export..." Translation="Exportar..." Count="24" Status="*"/>
+<ROW OriginalValue="Export to HTML help files" Translation="Exportar en archivos de ayuda HTML" Count="24" Status="*"/>
+<ROW OriginalValue="&amp;Open..." Translation="&amp;Abrir..." Count="20" Status="*"/>
+<ROW OriginalValue="Open an existing Markdown or HTML file..." Translation="Abra un archivo Markdown o HTML existente..." Count="24" Status="*"/>
+<ROW OriginalValue="Hide" Translation="Ocultar" Count="24" Status="*"/>
+<ROW OriginalValue="Hide Content/Search Panel" Translation="Ocultar contenido/panel de b&#250;squeda" Count="24" Status="*"/>
+<ROW OriginalValue="Home" Translation="Inicio" Count="24" Status="*"/>
+<ROW OriginalValue="Back to Home File" Translation="Volver al archivo de inicio" Count="24" Status="*"/>
+<ROW OriginalValue="&amp;Next" Translation="&amp;Siguiente" Count="24" Status="*"/>
+<ROW OriginalValue="Next Opened File" Translation="Archivo abierto siguiente" Count="24" Status="*"/>
+<ROW OriginalValue="&amp;Previous" Translation="&amp;Anterior" Count="24" Status="*"/>
+<ROW OriginalValue="Previous Opened File" Translation="Archivo abierto anterior" Count="24" Status="*"/>
+<ROW OriginalValue="Print" Translation="Imprimir" Count="12" Status="*"/>
+<ROW OriginalValue="Print file in PDF" Translation="Imprimir archivo en PDF" Count="12" Status="*"/>
+<ROW OriginalValue="Refresh" Translation="Actualizar" Count="24" Status="*"/>
+<ROW OriginalValue="Refresh content (reloading file)" Translation="Actualizar contenido (volver a cargar el archivo)" Count="24" Status="*"/>
+<ROW OriginalValue="Save PDF" Translation="Salva PDF" Count="24" Status="*"/>
+<ROW OriginalValue="Save current file in PDF format..." Translation="Salvar el archivo actual en formato PDF..." Count="24" Status="*"/>
+<ROW OriginalValue="Search" Translation="Buscar" Count="36" Status="*"/>
+<ROW OriginalValue="Search keyword into files" Translation="Buscar palabra clave en archivos" Count="24" Status="*"/>
+<ROW OriginalValue="Settings" Translation="Config." Count="36" Status="*"/>
+<ROW OriginalValue="Show Settings" Translation="Mostrar configuraci&#243;n" Count="24" Status="*"/>
+<ROW OriginalValue="Show" Translation="Mostrar" Count="12" Status="*"/>
+<ROW OriginalValue="Show Content/Search Panel" Translation="Mostrar contenido/panel de b&#250;squeda" Count="12" Status="*"/>
+<ROW OriginalValue="View" Translation="Vista" Count="48" Status="*"/>
+<ROW OriginalValue="View File" Translation="Ver archivo" Count="48" Status="*"/>
+<ROW OriginalValue="Insert file name to search:" Translation="Ingrese el nombre del archivo a buscar:" Count="13" Status="*"/>
+<ROW OriginalValue="Input the keyword to search into files in the working folder:" Translation="Ingrese palabra clave para buscar en archivos de la carpeta de trabajo:" Count="13" Status="*"/>
+<ROW OriginalValue="Search for file:" Translation="Buscar archivo:" Count="13" Status="*"/>
+<ROW OriginalValue="Input keyword to search in files:" Translation="Ingrese palabra clave para buscar en archivos:" Count="13" Status="*"/>
+<ROW OriginalValue="Select file to view:" Translation="Seleccione el archivo a visualizar:" Count="24" Status="*"/>
+<ROW OriginalValue="Markdown Tranformation Dialect" Translation="Dialecto de transformaci&#243;n Markdown" Count="12" Status="*"/>
+<ROW OriginalValue="DaringFireball" Translation="DaringFireball" Count="24" Status="*"/>
+<ROW OriginalValue="CommonMark" Translation="CommonMark" Count="24" Status="*"/>
+<ROW OriginalValue="Transformation:" Translation="Transformaci&#243;n:" Count="12" Status="*"/>
+<ROW OriginalValue="Markdown Help Viewer" Translation="Markdown Help Viewer" Count="12" Status="*"/>
+<ROW OriginalValue="Working Dir" Translation="Directorio de trabajo" Count="12" Status="*"/>
+<ROW OriginalValue="List of Files into Working Directory" Translation="Lista de archivos en el directorio de trabajo" Count="12" Status="*"/>
+<ROW OriginalValue="Content/Index" Translation="Contenido/&#205;ndice" Count="12" Status="*"/>
+<ROW OriginalValue="Markdown Content/Index" Translation="Contenido/&#237;ndice de Markdown" Count="12" Status="*"/>
+<ROW OriginalValue="Colored icons" Translation="Iconos a color" Count="12" Status="*"/>
+<ROW OriginalValue="Download from WEB" Translation="Descargar desde WEB" Count="12" Status="*"/>
+<ROW OriginalValue="Font name" Translation="Nombre de la fuente" Count="12" Status="*"/>
+<ROW OriginalValue="Size" Translation="Tama&#241;o" Count="12" Status="*"/>
+<ROW OriginalValue="12" Translation="12" Count="12" Status="*"/>
+<ROW OriginalValue="HTML Text (default)" Translation="Texto HTML (predeterminado)" Count="12" Status="*"/>
+<ROW OriginalValue="Bottom margin" Translation="Margen inferior" Count="13" Status="*"/>
+<ROW OriginalValue="Left margin" Translation="Margen izquierdo" Count="13" Status="*"/>
+<ROW OriginalValue="Right margin" Translation="Margen derecho" Count="13" Status="*"/>
+<ROW OriginalValue="Top margin" Translation="Margen superior" Count="13" Status="*"/>
+<ROW OriginalValue="Markdown processor options" Translation="Opciones del procesador Markdown" Count="12" Status="*"/>
+<ROW OriginalValue="Back" Translation="Atr&#225;s" Count="11" Status="*"/>
+<ROW OriginalValue="Preview" Translation="Vista previa" Count="23" Status="*"/>
+<ROW OriginalValue="Theme" Translation="Tema" Count="35" Status="*"/>
+<ROW OriginalValue="Font" Translation="Fuente" Count="23" Status="*"/>
+<ROW OriginalValue="PDF layout" Translation="Dise&#241;o PDF" Count="23" Status="*"/>
+<ROW OriginalValue="Orientation" Translation="Orientaci&#243;n" Count="12" Status="*"/>
+<ROW OriginalValue="Portrait" Translation="Retrato" Count="12" Status="*"/>
+<ROW OriginalValue="Landscape" Translation="Horizontal" Count="12" Status="*"/>
+<ROW OriginalValue="Page size" Translation="Tama&#241;o de p&#225;gina" Count="12" Status="*"/>
+<ROW OriginalValue="A4" Translation="A4" Count="12" Status="*"/>
+<ROW OriginalValue="A5" Translation="A5" Count="12" Status="*"/>
+<ROW OriginalValue="A3" Translation="A3" Count="12" Status="*"/>
+<ROW OriginalValue="A2" Translation="A2" Count="12" Status="*"/>
+<ROW OriginalValue="A1" Translation="A1" Count="12" Status="*"/>
+<ROW OriginalValue="A0" Translation="A0" Count="12" Status="*"/>
+<ROW OriginalValue="Letter" Translation="Carta" Count="12" Status="*"/>
+<ROW OriginalValue="Legal" Translation="Legal" Count="12" Status="*"/>
+<ROW OriginalValue="Dialect:" Translation="Dialecto:" Count="12" Status="*"/>
+<ROW OriginalValue="Images loading options" Translation="Opciones de carga de im&#225;genes" Count="12" Status="*"/>
+<ROW OriginalValue="Rescaling to viewer size" Translation="Redimensionar al tama&#241;o del visor" Count="12" Status="*"/>
+<ROW OriginalValue="Selected Theme" Translation="Tema seleccionado" Count="12" Status="*"/>
+<ROW OriginalValue="Show Captions" Translation="Mostrar t&#237;tulos descriptivos" Count="12" Status="*"/>
+<ROW OriginalValue="Same as Windows" Translation="Igual que Windows" Count="12" Status="*"/>
+<ROW OriginalValue="Force Dark" Translation="Forzar tema oscuro" Count="12" Status="*"/>
+<ROW OriginalValue="Force Light" Translation="Forzar tema claro" Count="12" Status="*"/>
+<ROW OriginalValue="Toolbar" Translation="Barra de herramientas" Count="12" Status="*"/>
+<ROW OriginalValue="Language:" Translation="Idioma:" Count="12" Status="*"/>
+<ROW OriginalValue="User interface" Translation="Interfaz de usuario" Count="12" Status="*"/>
+<ROW OriginalValue="Show selection in Viewer" Translation="Mostrar selecci&#243;n en el visor" Count="5" Status="@"/>
+<ROW OriginalValue="Buttons" Translation="Botones" Count="4" Status="*"/>
+<ROW OriginalValue="Rounded buttons" Translation="Botones redondeados" Count="8" Status="*"/>
+<ROW OriginalValue="Copyright &#169;2019-2025 Angus Johnson." Translation="Copyright &#169;2019-2025 Angus Johnson." Count="3" Status="*"/>
+<ROW OriginalValue="Buttons Width" Translation="Ancho de botones" Count="3" Status="*"/>
+<ROW OriginalValue="Open..." Translation="&amp;Abrir..." Count="4" Status="*"/>
+<ROW OriginalValue="Automatic check" Translation="Comprobaci&#243;n autom&#225;tica" Count="1" Status="@"/>
+<ROW OriginalValue="Interval in days:" Translation="Intervalo en d&#237;as:" Count="1" Status="@"/>
+<ROW OriginalValue="Updates" Translation="Actualizaciones" Count="1" Status="@"/>
 </ROWDATA>
 </DATAPACKET>

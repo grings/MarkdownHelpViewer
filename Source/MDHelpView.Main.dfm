@@ -73,26 +73,30 @@ object MainForm: TMainForm
       object lbIndex: TLabel
         AlignWithMargins = True
         Left = 3
-        Top = 7
-        Width = 75
+        Top = 3
+        Width = 286
         Height = 15
+        Align = alTop
         Caption = 'Search for file:'
+        ExplicitWidth = 75
       end
       object lbSelectFile: TLabel
-        Left = 3
-        Top = 62
-        Width = 94
+        Left = 0
+        Top = 50
+        Width = 292
         Height = 15
-        Anchors = [akLeft, akTop, akRight]
+        Align = alTop
         Caption = 'Select file to view:'
+        ExplicitWidth = 94
       end
       object FileListBox: TFileListBox
         AlignWithMargins = True
-        Left = 4
-        Top = 80
-        Width = 284
-        Height = 229
-        Anchors = [akLeft, akTop, akRight, akBottom]
+        Left = 3
+        Top = 68
+        Width = 286
+        Height = 240
+        Margins.Bottom = 34
+        Align = alClient
         FileType = [ftReadOnly, ftNormal]
         ItemHeight = 15
         Mask = '*.md'
@@ -101,20 +105,20 @@ object MainForm: TMainForm
       end
       object edFileSearch: TEdit
         AlignWithMargins = True
-        Left = 4
+        Left = 3
         Top = 24
-        Width = 284
+        Width = 286
         Height = 23
         Hint = 'Insert file name to search:'
-        Anchors = [akLeft, akTop, akRight]
+        Align = alTop
         ParentShowHint = False
         ShowHint = True
         TabOrder = 0
         OnChange = edFileSearchChange
       end
       object btIndex: TButton
-        Left = 178
-        Top = 315
+        Left = 179
+        Top = 314
         Width = 110
         Height = 24
         Cursor = crHandPoint
@@ -127,14 +131,18 @@ object MainForm: TMainForm
     object tsSearch: TTabSheet
       Caption = 'Search'
       ImageIndex = 2
+      DesignSize = (
+        292
+        342)
       object lbSelectSearch: TLabel
         AlignWithMargins = True
         Left = 3
         Top = 90
-        Width = 94
+        Width = 286
         Height = 15
         Align = alTop
         Caption = 'Select file to view:'
+        ExplicitWidth = 94
       end
       object paSearch: TPanel
         Left = 0
@@ -149,11 +157,13 @@ object MainForm: TMainForm
           87)
         object lbSearch: TLabel
           AlignWithMargins = True
-          Left = 3
+          Left = 4
           Top = 7
-          Width = 286
+          Width = 284
           Height = 15
+          Margins.Left = 4
           Margins.Top = 7
+          Margins.Right = 4
           Align = alTop
           Caption = 'Input keyword to search in files:'
           ExplicitWidth = 167
@@ -175,7 +185,7 @@ object MainForm: TMainForm
         end
         object btSearch: TButton
           Left = 178
-          Top = 57
+          Top = 54
           Width = 110
           Height = 24
           Cursor = crHandPoint
@@ -190,36 +200,25 @@ object MainForm: TMainForm
         Left = 4
         Top = 108
         Width = 284
-        Height = 199
+        Height = 200
         Margins.Left = 4
         Margins.Top = 0
         Margins.Right = 4
+        Margins.Bottom = 34
         Align = alClient
         ItemHeight = 15
         TabOrder = 1
         OnDblClick = acViewSearchExecute
       end
-      object paView: TPanel
-        Left = 0
-        Top = 310
-        Width = 292
-        Height = 32
-        Align = alBottom
-        BevelOuter = bvNone
+      object btSearchView: TButton
+        Left = 177
+        Top = 315
+        Width = 110
+        Height = 24
+        Cursor = crHandPoint
+        Action = acViewSearch
+        Anchors = [akRight, akBottom]
         TabOrder = 2
-        DesignSize = (
-          292
-          32)
-        object btSearchView: TButton
-          Left = 178
-          Top = 4
-          Width = 110
-          Height = 24
-          Cursor = crHandPoint
-          Action = acViewSearch
-          Anchors = [akRight, akBottom]
-          TabOrder = 0
-        end
       end
     end
   end
@@ -289,7 +288,7 @@ object MainForm: TMainForm
       object btOpen: TToolButton
         Left = 63
         Top = 0
-        Action = acFileOpen
+        Action = acOpenFile
       end
       object btRefresh: TToolButton
         Left = 118
@@ -378,19 +377,26 @@ object MainForm: TMainForm
       Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia]
     end
   end
-  object TActionList: TActionList
+  object OpenDialog: TFileOpenDialog
+    FavoriteLinks = <>
+    FileTypes = <>
+    Options = [fdoPathMustExist, fdoFileMustExist, fdoShareAware]
+    Left = 300
+    Top = 196
+  end
+  object ActionList: TActionList
     Images = SVGIconImageList
-    OnUpdate = TActionListUpdate
+    OnUpdate = ActionListUpdate
     Left = 560
     Top = 88
-    object acFileOpen: TFileOpen
+    object acOpenFile: TAction
       Category = 'File'
-      Caption = '&Open...'
-      Dialog.Title = 'Open Markdown or HTML file...'
+      Caption = 'Open...'
       Hint = 'Open an existing Markdown or HTML file...'
       ImageIndex = 8
+      ImageName = 'folder-open'
       ShortCut = 16463
-      OnAccept = acFileOpenAccept
+      OnExecute = acOpenFileExecute
     end
     object acPreviousPage: TAction
       Category = 'Page'
@@ -512,11 +518,26 @@ object MainForm: TMainForm
       OnUpdate = acExportHTMLUpdate
     end
   end
-  object SaveDialog: TSaveDialog
-    Filter = 'Markdown files (.md)|*.md|Html files|*.html, *.htm'
-    Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
-    Left = 508
-    Top = 320
+  object SaveDialog: TFileSaveDialog
+    FavoriteLinks = <>
+    FileTypes = <>
+    Options = [fdoOverWritePrompt, fdoNoReadOnlyReturn]
+    Left = 300
+    Top = 264
+  end
+  object SaveDialogHTML: TFileSaveDialog
+    FavoriteLinks = <>
+    FileTypes = <>
+    Options = [fdoOverWritePrompt, fdoNoReadOnlyReturn]
+    Left = 364
+    Top = 264
+  end
+  object SaveDialogPDF: TFileSaveDialog
+    FavoriteLinks = <>
+    FileTypes = <>
+    Options = [fdoOverWritePrompt, fdoNoReadOnlyReturn]
+    Left = 364
+    Top = 264
   end
   object SVGIconImageList: TSVGIconImageList
     Size = 24

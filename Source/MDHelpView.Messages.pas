@@ -37,6 +37,13 @@ interface
   function CONFIRM_EXPORT_HTML: string;
   function ERR_MSG_RECEIVED: string;
   function CLOSE_APP_FOR_LANG: string;
+  function NEW_VERSION_AVAILABLE: string;
+  function NEW_VERSION_NOT_AVAILABLE: string;
+  function STOP_DOWNLOAD_BTN: string;
+  function CHECK_FOR_UPDATE_BTN: string;
+  function DOWNLOAD_STOPPED: string;
+  function DOWNLOADING_ERROR: string;
+  function ERROR_CHECKING_NEW_VERSION: string;
 
   procedure RegisterMessages;
 
@@ -98,6 +105,47 @@ const
     'Riavvio l''applicazione per cambiare la lingua.',
     'Closing application to change GUI language'); end;
 
+  function NEW_VERSION_AVAILABLE: string;
+  begin Result := GetMsgMultiLanguage(UN,'NEW_VERSION_AVAILABLE',
+    'Una nuova versione è disponibile:'+sLineBreak+
+    'Versione corrente: %s - Versione disponibile: %s'+sLineBreak+
+    'Vuoi scaricare ed installare la nuova versione?',
+    'A new version is available:'+sLineBreak+
+    'Current version: %s - Available version: %s'+sLineBreak+
+    'Do you want to dowload and install the new version?'); end;
+
+  function NEW_VERSION_NOT_AVAILABLE: string;
+  begin Result := GetMsgMultiLanguage(UN,'NEW_VERSION_NOT_AVAILABLE',
+    'Nessun aggiornamento disponibile.'+sLineBreak+
+    'Stai già utilizzando l''ultima versione: %s',
+    'No updates available.'+sLineBreak+
+    'You have already the latest version: %s'); end;
+
+  function STOP_DOWNLOAD_BTN: string;
+  begin Result := GetMsgMultiLanguage(UN,'STOP_DOWNLOAD_BTN',
+    'Arresta scaricamento!',
+    'Stop download!'); end;
+
+  function CHECK_FOR_UPDATE_BTN: string;
+  begin Result := GetMsgMultiLanguage(UN,'CHECK_FOR_UPDATE_BTN',
+    'Cerca aggiornamenti',
+    'Check for updates'); end;
+
+  function DOWNLOAD_STOPPED: string;
+  begin Result := GetMsgMultiLanguage(UN,'DOWNLOAD_STOPPED',
+    'Scaricamento dell''installer arrestato!',
+    'Download of installer stopped!'); end;
+
+  function DOWNLOADING_ERROR: string;
+  begin Result := GetMsgMultiLanguage(UN,'DOWNLOADING_ERROR',
+    'Errore in scaricamento!',
+    'Error downloading!'); end;
+
+  function ERROR_CHECKING_NEW_VERSION: string;
+  begin Result := GetMsgMultiLanguage(UN,'ERROR_CHECKING_NEW_VERSION',
+    'Errore durante il controllo se è disponibile un nuovo aggiornamento per l''applicazione: %s',
+    'Error checking if a new update for the application is available: %s'); end;
+
   procedure RegisterMessages;
   begin
     StartMessagesRegistration(UN);
@@ -112,6 +160,13 @@ const
       CONFIRM_EXPORT_HTML;
       ERR_MSG_RECEIVED;
       CLOSE_APP_FOR_LANG;
+      NEW_VERSION_AVAILABLE;
+      NEW_VERSION_NOT_AVAILABLE;
+      STOP_DOWNLOAD_BTN;
+      CHECK_FOR_UPDATE_BTN;
+      DOWNLOAD_STOPPED;
+      DOWNLOADING_ERROR;
+      ERROR_CHECKING_NEW_VERSION;
     Finally
       EndMessagesRegistration(UN);
     End;

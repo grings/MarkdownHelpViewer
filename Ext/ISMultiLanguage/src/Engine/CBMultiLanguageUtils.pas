@@ -73,6 +73,7 @@ begin
     mlSpanish    : Result := STR_ESP;
     mlFrench     : Result := STR_FRA;
     mlPortuguese : Result := STR_PTG;
+    mlRussian    : Result := STR_RUS;
   end;
 end;
 

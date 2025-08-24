@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--stat:#=36
-*=0
-@=36
+<!--stat:#=40
+*=1
+@=39
 ?=0
 0=0
 :stat-->  <DATAPACKET Version="2.0">
 <METADATA>
 <FIELDS>
-<FIELD attrname="Type" fieldtype="string" required="true" WIDTH="2"/>
-<FIELD attrname="ComponentName" fieldtype="string" required="true" WIDTH="100"/>
-<FIELD attrname="PropertyName" fieldtype="string" required="true" WIDTH="100"/>
-<FIELD attrname="OriginalValue" fieldtype="bin.hex" required="true" SUBTYPE="Text"/>
-<FIELD attrname="Translation" fieldtype="bin.hex" SUBTYPE="Text"/>
-<FIELD attrname="Status" fieldtype="string" required="true" WIDTH="1"/>
+<FIELD attrname="Type" fieldtype="string.uni" required="true" WIDTH="4"/>
+<FIELD attrname="ComponentName" fieldtype="string.uni" required="true" WIDTH="200"/>
+<FIELD attrname="PropertyName" fieldtype="string.uni" required="true" WIDTH="200"/>
+<FIELD attrname="OriginalValue" fieldtype="string.uni" required="true" WIDTH="-8"/>
+<FIELD attrname="Translation" fieldtype="string.uni" WIDTH="-8"/>
+<FIELD attrname="Status" fieldtype="string.uni" required="true" WIDTH="2"/>
 <FIELD attrname="Deleted" fieldtype="boolean" required="true"/>
-<FIELD attrname="ClassName" fieldtype="string" WIDTH="50"/>
-<FIELD attrname="OriginalStr" fieldtype="string" WIDTH="250"/>
-<FIELD attrname="TranslationStr" fieldtype="string" WIDTH="250"/>
+<FIELD attrname="ClassName" fieldtype="string.uni" WIDTH="100"/>
+<FIELD attrname="OriginalStr" fieldtype="string.uni" WIDTH="500"/>
+<FIELD attrname="TranslationStr" fieldtype="string.uni" WIDTH="500"/>
 </FIELDS>
 <PARAMS/>
 </METADATA>
@@ -51,11 +51,15 @@
 <ROW Type="F" ComponentName="OrientationRadioGroup" PropertyName="Items" OriginalValue="Portrait&#013;&#010;Landscape&#013;&#010;" Translation="Verticale&#013;&#010;Orizzontale&#013;&#010;" Status="@" Deleted="FALSE" ClassName="TRadioGroup" OriginalStr="Portrait&#013;&#010;Landscape" TranslationStr="Verticale&#013;&#010;Orizzontale"/>
 <ROW Type="F" ComponentName="PaperSizeRadioGroup" PropertyName="Caption" OriginalValue="Page size" Translation="Dimensione pagina" Status="@" Deleted="FALSE" ClassName="TRadioGroup" OriginalStr="Page size" TranslationStr="Dimensione pagina"/>
 <ROW Type="F" ComponentName="PaperSizeRadioGroup" PropertyName="Items" OriginalValue="A4&#013;&#010;A5&#013;&#010;A3&#013;&#010;A2&#013;&#010;A1&#013;&#010;A0&#013;&#010;Letter&#013;&#010;Legal&#013;&#010;" Translation="A4&#013;&#010;A5&#013;&#010;A3&#013;&#010;A2&#013;&#010;A1&#013;&#010;A0&#013;&#010;Lettera&#013;&#010;Legale&#013;&#010;" Status="@" Deleted="FALSE" ClassName="TRadioGroup" OriginalStr="A4&#013;&#010;A5&#013;&#010;A3&#013;&#010;A2&#013;&#010;A1&#013;&#010;A0&#013;&#010;Letter&#013;&#010;Legal" TranslationStr="A4&#013;&#010;A5&#013;&#010;A3&#013;&#010;A2&#013;&#010;A1&#013;&#010;A0&#013;&#010;Lettera&#013;&#010;Legale"/>
-<ROW Type="F" ComponentName="MenuButtonGroup" PropertyName="Items" OriginalValue="Back&#013;&#010;Preview&#013;&#010;Theme&#013;&#010;Font&#013;&#010;PDF Layout&#013;&#010;" Translation="Indietro&#013;&#010;Anteprima&#013;&#010;Tema&#013;&#010;Font&#013;&#010;Layout PDF&#013;&#010;" Status="@" Deleted="FALSE" ClassName="TButtonGroup" OriginalStr="Back&#013;&#010;Preview&#013;&#010;Theme&#013;&#010;Font&#013;&#010;PDF Layout" TranslationStr="Indietro&#013;&#010;Anteprima&#013;&#010;Tema&#013;&#010;Font&#013;&#010;Layout PDF"/>
+<ROW Type="F" ComponentName="MenuButtonGroup" PropertyName="Items" OriginalValue="Back&#013;&#010;Preview&#013;&#010;Theme&#013;&#010;Font&#013;&#010;PDF Layout&#013;&#010;Updates&#013;&#010;" Translation="Indietro&#013;&#010;Anteprima&#013;&#010;Tema&#013;&#010;Font&#013;&#010;Layout PDF&#013;&#010;Updates&#013;&#010;" Status="@" Deleted="FALSE" ClassName="TButtonGroup" OriginalStr="Back&#013;&#010;Preview&#013;&#010;Theme&#013;&#010;Font&#013;&#010;PDF Layout&#013;&#010;Updates" TranslationStr="Indietro&#013;&#010;Anteprima&#013;&#010;Tema&#013;&#010;Font&#013;&#010;Layout PDF&#013;&#010;Updates"/>
 <ROW Type="F" ComponentName="TitlePanel" PropertyName="Caption" OriginalValue="Settings" Translation="Impostazioni" Status="@" Deleted="FALSE" ClassName="TPanel" OriginalStr="Settings" TranslationStr="Impostazioni"/>
 <ROW Type="F" ComponentName="ShowDialectSelectionCheckBox" PropertyName="Caption" OriginalValue="Show selection in Viewer" Translation="Mostra la scelta" Status="@" Deleted="FALSE" ClassName="TCheckBox" OriginalStr="Show selection in Viewer" TranslationStr="Mostra la scelta"/>
 <ROW Type="F" ComponentName="ToolbarRoundedCheckBox" PropertyName="Caption" OriginalValue="Rounded buttons" Translation="Pulsanti arrotondati" Status="@" Deleted="FALSE" ClassName="TCheckBox" OriginalStr="Rounded buttons" TranslationStr="Pulsanti arrotondati"/>
 <ROW Type="F" ComponentName="ButtonsRoundedCheckBox" PropertyName="Caption" OriginalValue="Rounded Buttons" Translation="Pulsanti arrotondati" Status="@" Deleted="FALSE" ClassName="TCheckBox" OriginalStr="Rounded Buttons" TranslationStr="Pulsanti arrotondati"/>
 <ROW Type="F" ComponentName="ButtonsGroupBox" PropertyName="Caption" OriginalValue="Buttons" Translation="Pulsanti" Status="@" Deleted="FALSE" ClassName="TGroupBox" OriginalStr="Buttons" TranslationStr="Pulsanti"/>
+<ROW Type="F" ComponentName="ToolButtonWidthLabel" PropertyName="Caption" OriginalValue="Buttons Width" Translation="Larghezza pulsanti" Status="*" Deleted="FALSE" ClassName="TLabel" OriginalStr="Buttons Width" TranslationStr="Larghezza pulsanti"/>
+<ROW Type="F" ComponentName="CheckNDaysLabel" PropertyName="Caption" OriginalValue="Interval in days:" Translation="Intervallo in giorni:" Status="@" Deleted="FALSE" ClassName="TLabel" OriginalStr="Interval in days:" TranslationStr="Intervallo in giorni:"/>
+<ROW Type="F" ComponentName="AutoUpdateCheckBox" PropertyName="Caption" OriginalValue="Automatic check" Translation="Controllo automatico" Status="@" Deleted="FALSE" ClassName="TCheckBox" OriginalStr="Automatic check" TranslationStr="Controllo automatico"/>
+<ROW Type="F" ComponentName="tsUpdates" PropertyName="Caption" OriginalValue="Updates" Translation="Updates" Status="@" Deleted="FALSE" ClassName="TTabSheet" OriginalStr="Updates" TranslationStr="Updates"/>
 </ROWDATA>
 </DATAPACKET>

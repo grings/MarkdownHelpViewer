@@ -1,0 +1,76 @@
+<style type="text/css">
+code{
+  font-size: small;
+  font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;
+}
+pre{
+  border: 1px solid #ddd;
+  border-left: 3px solid #0d6efd;
+  overflow: auto;
+  padding: 1em 1.5em;
+  display: block;
+}
+Blockquote{
+  border-left: 3px solid #0d6efd;
+  padding-left: 0.5em;
+  margin-left:1em;
+}
+Blockquote p{
+  margin: 0;
+}
+table{
+  border:1px solid;
+  border-collapse:collapse;
+}
+th{'+
+  padding:5px;
+  border:1px solid;
+}
+td{
+  padding:5px;
+  border:1px solid;
+}
+</style>
+<h1>Markdown Help Viewer Demo <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg" alt="License"/></a></h1>
+<p><strong>This file an example of help system based on Markdown files, for the MarkdownHelpViewerDemo</strong></p>
+<p>The integration was tested from <strong>Delphi XE6</strong> to <strong>Delphi 12</strong>: for older versions of Delphi please give a request into <a href="https://github.com/EtheaDev/MarkdownHelpViewer/issues">&ldquo;Issue section&rdquo;</a></p>
+<h3>Step to activate this Help into MarkdownHelpViewerDemo Application</h3>
+<p>Use MarkdownHelpViewer.pas (located into AppInterface folder) in dpr:</p>
+<pre><code class="Delphi">  MarkdownHelpViewer in '..\..\AppInterface\MarkDownHelpViewer.pas',
+</code></pre>
+<p>then specify the default file of the help:</p>
+<pre><code class="Delphi">  Application.HelpFile := ExtractFilePath(Application.ExeName)+'..\Help\Home.htm';
+</code></pre>
+<p>If you have installed the viewer using the provided Setup, the installation folder of the Viewer is registere into:</p>
+<p><code>
+HKEY_CLASSES_ROOT\Applications\MDHelpViewer.exe\Shell\Open\Command
+</code>
+so the interface can launch the viewer automatically.</p>
+<p>If you don't want to use the provided Setup you can register the location of the Viewer built by yourself and deployed to a specific location, for example:</p>
+<pre><code class="Delphi">{$IFDEF WIN32}
+  RegisterMDViewerLocation(ExtractFilePath(Application.ExeName)+
+    '..\..\Bin32\MDHelpViewer.exe');
+{$ELSE}
+  RegisterMDViewerLocation(ExtractFilePath(Application.ExeName)+
+    '..\..\Bin64\MDHelpViewer.exe');
+{$ENDIF}
+</code></pre>
+<h3>Rules to open the correct file using HelpContext or HelpTopic</h3>
+<p>To test the application you can lauch the Home.htm help using the menu About/Help: in the OnClick handler invoke the help:</p>
+<pre><code class="Delphi">procedure TfmMain.HelpMenuItemClick(Sender: TObject);
+begin
+  Application.HelpKeyword('home');
+end;
+</code></pre>
+<p>In any Delphi component, you can define HelpType (htKeyword or htContext) and the specify HelpKeyword (string) or HelpContext (Integer).</p>
+<p>When the user press &ldquo;F1&rdquo; inside the application, the HelpSystem is invoked with HelpKeyword or HelpContext.</p>
+<p>Then the interface searches in the same folder of default file (specified into Application.HelpFile) the specific file using those rules:</p>
+<h4>Rules of precedence:</h4>
+<ul>
+<li>first search a file named as the Keyword or the Context with any markdown extension (eg. 1000.htm, MainForm.htm)</li>
+<li>Then, try the Help Name and the Keyword (eg.Home1000.htm, HomeMainForm.htm)</li>
+<li>At least, try the Help Name and the Keyword with underscore (eg.Home_1000.htm, Home_MainForm.htm)</li>
+</ul>
+<h2>License</h2>
+<p>Licensed under the <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg" alt="License"/></a></p>
+<p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an &ldquo;AS IS&rdquo; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>

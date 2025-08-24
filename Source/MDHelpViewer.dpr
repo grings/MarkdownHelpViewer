@@ -33,6 +33,7 @@ uses
   Vcl.Styles,
   CBMultiLanguage,
   MDHelpView.FormsHookTrx in 'MDHelpView.FormsHookTrx.pas',
+  MDHelpView.Splash in 'MDHelpView.Splash.pas' {SplashForm},
   MDHelpView.Main in 'MDHelpView.Main.pas' {MainForm},
   MDHelpView.Resources in 'MDHelpView.Resources.pas' {dmResources: TDataModule},
   MDHelpView.Settings in 'MDHelpView.Settings.pas',
@@ -61,8 +62,18 @@ begin
   Application.Title := 'Markdown Help Viewer';
   //Uses System Style for border / shadow of Forms
   TStyleManager.FormBorderStyle := TStyleManager.TFormBorderStyle.fbsSystemStyle;
-  Application.CreateForm(TdmResources, dmResources);
-  Application.CreateForm(TMainForm, MainForm);
-  Application.OnException := MainForm.ManageExceptions;
+  with TSplashForm.Create(nil) do
+  Try
+    Show;
+    Update;
+    Application.HelpFile := '';
+    Application.CreateForm(TdmResources, dmResources);
+    Application.CreateForm(TMainForm, MainForm);
+    Application.OnException := MainForm.ManageExceptions;
+    Hide;
+  Finally
+    Free;
+  End;
+  MainForm.Show;
   Application.Run;
 end.

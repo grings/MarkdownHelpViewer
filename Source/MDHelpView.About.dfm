@@ -9,9 +9,10 @@ object FrmAbout: TFrmAbout
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'Tahoma'
+  Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poDefault
+  OnActivate = FormActivate
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
@@ -29,9 +30,9 @@ object FrmAbout: TFrmAbout
     WordWrap = True
   end
   object LabelVersion: TLabel
-    Left = 396
+    Left = 393
     Top = 64
-    Width = 35
+    Width = 38
     Height = 13
     Alignment = taRightJustify
     Caption = 'Version'
@@ -154,7 +155,7 @@ object FrmAbout: TFrmAbout
       '.93z" fill="#3ba08b" stroke="#227b69" stroke-width="4"/>'#13#10'</svg>' +
       #13#10
   end
-  object Panel1: TPanel
+  object BottomPanel: TPanel
     Left = 0
     Top = 261
     Width = 436
@@ -165,8 +166,8 @@ object FrmAbout: TFrmAbout
     ParentBackground = False
     TabOrder = 0
     object btnOK: TButton
-      Left = 356
-      Top = 16
+      Left = 351
+      Top = 8
       Width = 75
       Height = 25
       Cancel = True
@@ -177,7 +178,7 @@ object FrmAbout: TFrmAbout
     end
     object btnIssues: TButton
       Left = 8
-      Top = 16
+      Top = 8
       Width = 125
       Height = 25
       Caption = 'Submit issue...'
@@ -187,8 +188,8 @@ object FrmAbout: TFrmAbout
     end
     object btnCheckUpdates: TButton
       Left = 139
-      Top = 16
-      Width = 125
+      Top = 8
+      Width = 206
       Height = 25
       Caption = 'Check for updates'
       ImageIndex = 3

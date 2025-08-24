@@ -30,7 +30,7 @@ td{
 }
 </style>
 <h1>Markdown Help Viewer <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg" alt="License"/></a></h1>
-<p><strong>Latest Version 2.3.5 - 23 Mar 2025</strong></p>
+<p><strong>Latest Version 2.3.6 - 24 Aug 2025</strong></p>
 <p><strong>An integrated help system based on files in Markdown format (and also html), for Delphi and Windows applications</strong></p>
 <ul>
 <li><p>A &ldquo;Setup&rdquo; of the pre-built <strong>&ldquo;Markdown Help Viewer&rdquo;</strong> ready to use.</p>
@@ -45,15 +45,19 @@ td{
 <a href="https://github.com/EtheaDev/MarkdownShellExtensions">&ldquo;Markdown Shell Extensions&rdquo;</a> project.</p>
 </li>
 </ul>
+<p><img src="/Setup/SupportingDelphi.jpg" alt="Delphi Support"/></p>
+<p>Related links: <a href="https://www.embarcadero.com/">embarcadero.com</a> - <a href="https://learndelphi.org/">learndelphi.org</a></p>
 <h3>Features</h3>
 <ul>
-<li><p>Supports Windows 8, 10 and 11 (for 32 bits and 64 bits).</p>
+<li><p>Supports Windows 10 and 11 (for 32 bits and 64 bits).</p>
 </li>
 <li><p>Themes (Dark and Light) according to user preferences of Windows Theme</p>
 </li>
 <li><p>Auto-detect Index file in the working folder</p>
 </li>
-<li><p>Very easy to integrate into Delphi Application</p>
+<li><p>Very easy to integrate into Delphi Application, also in &ldquo;embedded&rdquo; mode.</p>
+</li>
+<li><p>Automatic check and download when a new version is available</p>
 </li>
 </ul>
 <h3>Setup using the Installer</h3>
@@ -102,6 +106,16 @@ end;
 <li>At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)</li>
 </ul>
 <h2>Release Notes</h2>
+<p>24 Aug 2025: ver. 2.3.6</p>
+<ul>
+<li>Added support for Delphi 13</li>
+<li>Automatic search for index name Home_Index.md before Index.md</li>
+<li>Enlarged Buttons to 80 pixels to fit translations</li>
+<li>Added Russian translations and updated other translations</li>
+<li>Translation Repository (xml) in Unicode format</li>
+<li>Removed Google Chart API support</li>
+<li>Fixed Restore Position in monitor with High-DPI</li>
+</ul>
 <p>23 Mar 2025: ver. 2.3.5</p>
 <ul>
 <li>Added Custom Event Handlers to TMarkdownViewer component (OnFileNameClicked, OnURLClicked)</li>
@@ -165,7 +179,7 @@ end;
 </ul>
 <ol>
 <li>Subscript <sub>text</sub> and Superscript <sup>text</sup></li>
-<li>Formulas (using <a href="https://developers.google.com/chart/infographics/docs/formulas">Google Chart API</a>)</li>
+<li>Formulas (using [Google Chart API])</li>
 <li><mark>Markers</mark></li>
 <li><a href="https://www.markdownguide.org/basic-syntax/#reference-style-links">Reference-style Links</a></li>
 </ol>
@@ -236,5 +250,3 @@ Portions created by Rodrigo Ruz V. are Copyright © 2011-2023 Rodrigo Ruz V.</p>
 <p><a href="https://github.com/RRUZ/vcl-styles-utils">vcl-styles-utils</a></p>
 <p><a href="https://github.com/EtheaDev/MarkdownProcessor">markdownProcessor</a></p>
 <p><a href="https://github.com/EtheaDev/StyledComponents">StyledComponents</a></p>
-<p><img src="/Setup/SupportingDelphi.jpg" alt="Delphi Support"/></p>
-<p>Related links: <a href="https://www.embarcadero.com/">embarcadero.com</a> - <a href="https://learndelphi.org/">learndelphi.org</a></p>

@@ -90,6 +90,13 @@ type
     ToolbarRoundedCheckBox: TCheckBox;
     ButtonsGroupBox: TGroupBox;
     ButtonsRoundedCheckBox: TCheckBox;
+    ToolButtonWidthEdit: TSpinEdit;
+    ToolButtonWidthLabel: TLabel;
+    tsUpdates: TTabSheet;
+    UpdateGroupBox: TGroupBox;
+    AutoUpdateCheckBox: TCheckBox;
+    CheckNDaysLabel: TLabel;
+    CheckNDaysSpinEdit: TSpinEdit;
     procedure ExitFromSettings(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure MenuButtonGroupButtonClicked(Sender: TObject; Index: Integer);
@@ -97,10 +104,13 @@ type
     procedure ThemesRadioGroupClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure OrientationRadioGroupClick(Sender: TObject);
+    procedure ShowCaptionCheckBoxClick(Sender: TObject);
+    procedure AutoUpdateCheckBoxClick(Sender: TObject);
   private
     FFileName: string;
     FAboutForm: TFrmAbout;
     FTitle: string;
+    procedure UpdateGUI;
     procedure WMCopyData(var Message: TMessage); message WM_COPYDATA;
     procedure PopulateAvailThemes;
     procedure AssignSettings(ASettings: TViewerSettings);
@@ -127,6 +137,7 @@ uses
   MarkdownProcessor
   , MarkdownUtils
   , MDHelpView.Registry
+  , MDHelpView.Messages
   , MDHelpView.Main;
 
 {$R *.dfm}
@@ -182,6 +193,11 @@ begin
   Caption := TitlePanel.Caption;
 end;
 
+procedure TMDSettingsForm.ShowCaptionCheckBoxClick(Sender: TObject);
+begin
+  UpdateGUI;
+end;
+
 procedure TMDSettingsForm.ThemesRadioGroupClick(Sender: TObject);
 begin
   PopulateAvailThemes;
@@ -196,6 +212,7 @@ begin
   tsFont.TabVisible := false;
   stTheme.TabVisible := false;
   tsPDFLayout.TabVisible := false;
+  tsUpdates.TabVisible := false;
   for var I := Low(TAppLanguage) to High(TAppLanguage) do
   begin
     LLanguage := TAppLanguage(I);
@@ -204,11 +221,20 @@ begin
 
   TitlePanel.Font.Height := Round(TitlePanel.Font.Height * 1.5);
   MenuButtonGroup.Font.Height := Round(MenuButtonGroup.Font.Height * 1.2);
+
+  UpdateGroupBox.Caption := CHECK_FOR_UPDATE_BTN;
 end;
 
 procedure TMDSettingsForm.FormDestroy(Sender: TObject);
 begin
   FAboutForm.Free;
+end;
+
+procedure TMDSettingsForm.AutoUpdateCheckBoxClick(Sender: TObject);
+begin
+  if AutoUpdateCheckBox.Checked and (CheckNDaysSpinEdit.Value = -1) then
+    CheckNDaysSpinEdit.Value := DEFAULT_CHECK_DAYS;
+  UpdateGUI;
 end;
 
 procedure TMDSettingsForm.ChangePage(AIndex: Integer);
@@ -232,7 +258,8 @@ begin
   ProcessorDialectComboBox.ItemIndex := ord(ASettings.ProcessorDialect);
   UIComboBox.ItemIndex := ord(ASettings.GUILanguage);
   ToolbarRoundedCheckBox.Checked := ASettings.ToolbarDrawRounded;
-  ButtonsRoundedCheckBox.Checked := Asettings.ButtonDrawRounded;
+  ButtonsRoundedCheckBox.Checked := ASettings.ButtonDrawRounded;
+  ToolButtonWidthEdit.Value := ASettings.ToolbarButtonWidth;
 
   RescalingImageCheckBox.Checked := ASettings.RescalingImage;
   DownloadFromWebCheckBox.Visible := ASettings is TViewerSettings;
@@ -252,7 +279,11 @@ begin
   MarginTopEdit.Value := ASettings.PDFPageSettings.MarginTop;
   MarginBottomEdit.Value := ASettings.PDFPageSettings.MarginBottom;
 
+  AutoUpdateCheckBox.Checked := ASettings.DaysForNextCheck <> -1;
+  CheckNDaysSpinEdit.Value := ASettings.DaysForNextCheck;
+
   PopulateAvailThemes;
+  UpdateGUI;
 end;
 
 function TMDSettingsForm.SelectedStyleName: string;
@@ -261,6 +292,13 @@ begin
     Result := SelectThemeRadioGroup.Items[SelectThemeRadioGroup.ItemIndex]
   else
     Result := DefaultStyleName;
+end;
+
+procedure TMDSettingsForm.UpdateGUI;
+begin
+  ToolButtonWidthEdit.Visible := ShowCaptionCheckBox.Checked;
+  ToolButtonWidthLabel.Visible := ShowCaptionCheckBox.Checked;
+  CheckNDaysSpinEdit.Enabled := AutoUpdateCheckBox.Checked;
 end;
 
 procedure TMDSettingsForm.UpdateSettings(ASettings: TViewerSettings);
@@ -276,6 +314,7 @@ begin
   ASettings.GUILanguage := TAppLanguage(UIComboBox.ItemIndex);
   ASettings.ToolbarDrawRounded := ToolbarRoundedCheckBox.Checked;
   Asettings.ButtonDrawRounded := ButtonsRoundedCheckBox.Checked;
+  ASettings.ToolbarButtonWidth := ToolButtonWidthEdit.Value;
 
   ASettings.VCLStyleName := SelectedStyleName;
   ASettings.RescalingImage := RescalingImageCheckBox.Checked;
@@ -291,6 +330,11 @@ begin
   ASettings.PDFPageSettings.MarginRight := MarginRightEdit.Value;
   ASettings.PDFPageSettings.MarginTop := MarginTopEdit.Value;
   ASettings.PDFPageSettings.MarginBottom := MarginBottomEdit.Value;
+
+  if AutoUpdateCheckBox.Checked then
+    ASettings.DaysForNextCheck := CheckNDaysSpinEdit.Value
+  else
+    ASettings.DaysForNextCheck := -1;
 end;
 
 procedure TMDSettingsForm.WMCopyData(var Message: TMessage);

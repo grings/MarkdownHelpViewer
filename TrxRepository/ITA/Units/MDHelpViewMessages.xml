@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--stat:#=10
+<!--stat:#=17
 *=0
-@=10
+@=17
 ?=0
 0=0
 :stat-->  <DATAPACKET Version="2.0">
 <METADATA>
 <FIELDS>
-<FIELD attrname="Type" fieldtype="string" required="true" WIDTH="2"/>
-<FIELD attrname="ComponentName" fieldtype="string" required="true" WIDTH="100"/>
-<FIELD attrname="PropertyName" fieldtype="string" required="true" WIDTH="100"/>
-<FIELD attrname="OriginalValue" fieldtype="bin.hex" required="true" SUBTYPE="Text"/>
-<FIELD attrname="Translation" fieldtype="bin.hex" SUBTYPE="Text"/>
-<FIELD attrname="Status" fieldtype="string" required="true" WIDTH="1"/>
+<FIELD attrname="Type" fieldtype="string.uni" required="true" WIDTH="4"/>
+<FIELD attrname="ComponentName" fieldtype="string.uni" required="true" WIDTH="200"/>
+<FIELD attrname="PropertyName" fieldtype="string.uni" required="true" WIDTH="200"/>
+<FIELD attrname="OriginalValue" fieldtype="string.uni" required="true" WIDTH="-8"/>
+<FIELD attrname="Translation" fieldtype="string.uni" WIDTH="-8"/>
+<FIELD attrname="Status" fieldtype="string.uni" required="true" WIDTH="2"/>
 <FIELD attrname="Deleted" fieldtype="boolean" required="true"/>
-<FIELD attrname="ClassName" fieldtype="string" WIDTH="50"/>
-<FIELD attrname="OriginalStr" fieldtype="string" WIDTH="250"/>
-<FIELD attrname="TranslationStr" fieldtype="string" WIDTH="250"/>
+<FIELD attrname="ClassName" fieldtype="string.uni" WIDTH="100"/>
+<FIELD attrname="OriginalStr" fieldtype="string.uni" WIDTH="500"/>
+<FIELD attrname="TranslationStr" fieldtype="string.uni" WIDTH="500"/>
 </FIELDS>
 <PARAMS/>
 </METADATA>
@@ -26,10 +26,17 @@
 <ROW Type="M" ComponentName="Message" PropertyName="STR_CONFIRMATION" OriginalValue="CONFIRMATION" Translation="CONFERMA" Status="@" Deleted="FALSE" OriginalStr="CONFIRMATION" TranslationStr="CONFERMA"/>
 <ROW Type="M" ComponentName="Message" PropertyName="STR_UNEXPECTED_ERROR" OriginalValue="UNEXPECTED ERROR!" Translation="ERRORE INATTESO!" Status="@" Deleted="FALSE" OriginalStr="UNEXPECTED ERROR!" TranslationStr="ERRORE INATTESO!"/>
 <ROW Type="M" ComponentName="Message" PropertyName="HTML_OUTPUT_FOLDER" OriginalValue="HTML output folder" Translation="Cartella salvataggio HTML" Status="@" Deleted="FALSE" OriginalStr="HTML output folder" TranslationStr="Cartella salvataggio HTML"/>
-<ROW Type="M" ComponentName="Message" PropertyName="FILE_SAVED" OriginalValue="File &quot;%s&quot; successfully saved. Do you want to open it now?" Translation="Il file &quot;%s&quot; è stato salvato correttamente. Vuoi aprirlo ora?" Status="@" Deleted="FALSE" OriginalStr="File &quot;%s&quot; successfully saved. Do you want to open it now?" TranslationStr="Il file &quot;%s&quot; è stato salvato correttamente. Vuoi aprirlo ora?"/>
-<ROW Type="M" ComponentName="Message" PropertyName="NO_KEYWORD_MATCH" OriginalValue="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" Translation="La parola chiave &quot;%s&quot; non è stata trovata nella cartella di lavoro: &quot;%s&quot;" Status="@" Deleted="FALSE" OriginalStr="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" TranslationStr="La parola chiave &quot;%s&quot; non è stata trovata nella cartella di lavoro: &quot;%s&quot;"/>
+<ROW Type="M" ComponentName="Message" PropertyName="FILE_SAVED" OriginalValue="File &quot;%s&quot; successfully saved. Do you want to open it now?" Translation="Il file &quot;%s&quot; &#232; stato salvato correttamente. Vuoi aprirlo ora?" Status="@" Deleted="FALSE" OriginalStr="File &quot;%s&quot; successfully saved. Do you want to open it now?" TranslationStr="Il file &quot;%s&quot; &#232; stato salvato correttamente. Vuoi aprirlo ora?"/>
+<ROW Type="M" ComponentName="Message" PropertyName="NO_KEYWORD_MATCH" OriginalValue="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" Translation="La parola chiave &quot;%s&quot; non &#232; stata trovata nella cartella di lavoro: &quot;%s&quot;" Status="@" Deleted="FALSE" OriginalStr="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" TranslationStr="La parola chiave &quot;%s&quot; non &#232; stata trovata nella cartella di lavoro: &quot;%s&quot;"/>
 <ROW Type="M" ComponentName="Message" PropertyName="CONFIRM_EXPORT_HTML" OriginalValue="Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?" Translation="Confermi esportazione di un singolo file [Si] o di %d file [Si a tutto] in formato HTML?" Status="@" Deleted="FALSE" OriginalStr="Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?" TranslationStr="Confermi esportazione di un singolo file [Si] o di %d file [Si a tutto] in formato HTML?"/>
 <ROW Type="M" ComponentName="Message" PropertyName="ERR_MSG_RECEIVED" OriginalValue="Incorrect message received" Translation="Ricevuto messaggio non corretto." Status="@" Deleted="FALSE" OriginalStr="Incorrect message received" TranslationStr="Ricevuto messaggio non corretto."/>
 <ROW Type="M" ComponentName="Message" PropertyName="CLOSE_APP_FOR_LANG" OriginalValue="Closing application to change GUI language" Translation="Riavvio l&apos;applicazione per cambiare la lingua." Status="@" Deleted="FALSE" OriginalStr="Closing application to change GUI language" TranslationStr="Riavvio l&apos;applicazione per cambiare la lingua."/>
+<ROW Type="M" ComponentName="Message" PropertyName="NEW_VERSION_AVAILABLE" OriginalValue="A new version is available:&#013;&#010;Current version: %s - Available version: %s&#013;&#010;Do you want to dowload and install the new version?" Translation="Una nuova versione &#232; disponibile:&#013;&#010;Versione corrente: %s - Versione disponibile: %s&#013;&#010;Vuoi scaricare ed installare la nuova versione?" Status="@" Deleted="FALSE" OriginalStr="A new version is available:&#013;&#010;Current version: %s - Available version: %s&#013;&#010;Do you want to dowload and install the new version?" TranslationStr="Una nuova versione &#232; disponibile:&#013;&#010;Versione corrente: %s - Versione disponibile: %s&#013;&#010;Vuoi scaricare ed installare la nuova versione?"/>
+<ROW Type="M" ComponentName="Message" PropertyName="NEW_VERSION_NOT_AVAILABLE" OriginalValue="No updates available.&#013;&#010;You have already the latest version: %s" Translation="Nessun aggiornamento disponibile.&#013;&#010;Stai gi&#224; utilizzando l&apos;ultima versione: %s" Status="@" Deleted="FALSE" OriginalStr="No updates available.&#013;&#010;You have already the latest version: %s" TranslationStr="Nessun aggiornamento disponibile.&#013;&#010;Stai gi&#224; utilizzando l&apos;ultima versione: %s"/>
+<ROW Type="M" ComponentName="Message" PropertyName="STOP_DOWNLOAD_BTN" OriginalValue="Stop download!" Translation="Arresta scaricamento!" Status="@" Deleted="FALSE" OriginalStr="Stop download!" TranslationStr="Arresta scaricamento!"/>
+<ROW Type="M" ComponentName="Message" PropertyName="CHECK_FOR_UPDATE_BTN" OriginalValue="Check for updates" Translation="Cerca aggiornamenti" Status="@" Deleted="FALSE" OriginalStr="Check for updates" TranslationStr="Cerca aggiornamenti"/>
+<ROW Type="M" ComponentName="Message" PropertyName="DOWNLOAD_STOPPED" OriginalValue="Download of installer stopped!" Translation="Scaricamento dell&apos;installer arrestato!" Status="@" Deleted="FALSE" OriginalStr="Download of installer stopped!" TranslationStr="Scaricamento dell&apos;installer arrestato!"/>
+<ROW Type="M" ComponentName="Message" PropertyName="DOWNLOADING_ERROR" OriginalValue="Error downloading!" Translation="Errore in scaricamento!" Status="@" Deleted="FALSE" OriginalStr="Error downloading!" TranslationStr="Errore in scaricamento!"/>
+<ROW Type="M" ComponentName="Message" PropertyName="ERROR_CHECKING_NEW_VERSION" OriginalValue="Error checking if a new update for the application is available: %s" Translation="Errore durante il controllo se &#232; disponibile un nuovo aggiornamento per l&apos;applicazione: %s" Status="@" Deleted="FALSE" OriginalStr="Error checking if a new update for the application is available: %s" TranslationStr="Errore durante il controllo se &#232; disponibile un nuovo aggiornamento per l&apos;applicazione: %s"/>
 </ROWDATA>
 </DATAPACKET>

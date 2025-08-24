@@ -30,8 +30,12 @@ unit CBMultiLanguage;
 interface
 
 uses
-  Windows,
-  SysUtils, DBClient, Classes, DB, TypInfo;
+  WinApi.Windows,
+  System.SysUtils,
+  Datasnap.DBClient,
+  System.Classes,
+  Data.DB,
+  System.TypInfo;
 
 const
   REPOS_NAME_SUFFIX = 'TrxRepository';
@@ -47,6 +51,7 @@ const
   SELF_STR = 'Self';
   STR_SIZE = 250;
   PK_INDEX = 'PK';
+  MEMO_MAX_SIZE = 32764; //I vecchi campi "Memo" ora sono stringhe unicode di 32764 caratteri max
 
   FLD_TYPE = 'Type';
   FLD_COMP_NAME = 'ComponentName';
@@ -86,7 +91,7 @@ Type
     constructor CreateLckFmt(const LockFileName, Msg: string; const Args: array of const);
   end;
 
-  TAppLanguage = (mlItalian, mlEnglish, mlGerman, mlSpanish, mlFrench, mlPortuguese);
+  TAppLanguage = (mlItalian, mlEnglish, mlGerman, mlSpanish, mlFrench, mlPortuguese, mlRussian);
 
   TAppLanguages = set of TAppLanguage;
 
@@ -120,6 +125,7 @@ const
   LANG_ESP_ID   = 'ESP';
   LANG_FRA_ID   = 'FRA';
   LANG_PTG_ID   = 'PTG';
+  LANG_RUS_ID   = 'RUS';
 
   ISO_ITA_ID   = 'it';
   ISO_ENG_ID   = 'en';
@@ -127,18 +133,19 @@ const
   ISO_ESP_ID   = 'es';
   ISO_FRA_ID   = 'fr';
   ISO_PTG_ID   = 'pt';
+  ISO_RUS_ID   = 'ru';
 
   AAppLanguageID : Array [TAppLanguage] of string =
-    (LANG_ITA_ID, LANG_ENG_ID, LANG_DEU_ID, LANG_ESP_ID, LANG_FRA_ID, LANG_PTG_ID);
+    (LANG_ITA_ID, LANG_ENG_ID, LANG_DEU_ID, LANG_ESP_ID, LANG_FRA_ID, LANG_PTG_ID, LANG_RUS_ID);
 
   AAppLanguageISOID : Array [TAppLanguage] of string =
-    (ISO_ITA_ID, ISO_ENG_ID, ISO_DEU_ID, ISO_ESP_ID, ISO_FRA_ID, ISO_PTG_ID);
+    (ISO_ITA_ID, ISO_ENG_ID, ISO_DEU_ID, ISO_ESP_ID, ISO_FRA_ID, ISO_PTG_ID, ISO_RUS_ID);
 
   AITALanguageDesc : Array [TAppLanguage] of string =
-    ('Italiano', 'Inglese', 'Tedesco', 'Spagnolo', 'Francese', 'Portoghese');
+    ('Italiano', 'Inglese', 'Tedesco', 'Spagnolo', 'Francese', 'Portoghese','Russo');
 
   AENGLanguageDesc : Array [TAppLanguage] of string =
-    ('Italian', 'English', 'German', 'Spanish', 'French', 'Portuguese');
+    ('Italian', 'English', 'German', 'Spanish', 'French', 'Portuguese', 'Russian');
 
   AAppLangType : Array [TAppLangType] of string =
     ('D', 'A', 'F', 'M', 'P', 'C');
@@ -165,6 +172,7 @@ type
     procedure ReadStatisticsFromFile;
     procedure ReformatTextFile;
     procedure WriteTextFile(const S: string);
+    procedure ConvertInUnicodeFormat(const FileName: string);
   protected
     procedure InternalReadStatistics(const S : string); virtual;
     procedure InternalWriteStatistics(var S : string); virtual;
@@ -451,6 +459,10 @@ function GetMsgMultiLanguageFRA( const UnitName: string; const IDMessage : strin
 // stesse funzionalità ma come lingua secondaria accetta un messaggio portoghese
 function GetMsgMultiLanguagePOR( const UnitName: string; const IDMessage : string;
   const ItalianMessage: string = ''; const PortugueseMessage: string = '' ) : string;
+
+// stesse funzionalità ma come lingua secondaria accetta un messaggio russo
+function GetMsgMultiLanguageRUS( const UnitName: string; const IDMessage : string;
+  const ItalianMessage: string = ''; const RussianMessage: string = '' ) : string;
 
 procedure StartMessagesRegistration(const UnitName : string);
 
@@ -948,6 +960,12 @@ begin
   Result := InternalGetMsgMultiLanguage(UnitName, IDMessage, ItalianMessage, PortugueseMessage, mlPortuguese);
 end;
 
+function GetMsgMultiLanguageRUS( const UnitName: string; const IDMessage : string;
+  const ItalianMessage: string = ''; const RussianMessage: string = '' ) : string;
+begin
+  Result := InternalGetMsgMultiLanguage(UnitName, IDMessage, ItalianMessage, RussianMessage, mlRussian);
+end;
+
 procedure StartMessagesRegistration(const UnitName : string);
 begin
   if GetCurrentLanguage = GetDefaultLanguage then
@@ -1180,16 +1198,16 @@ constructor TCDSTranslator.Create(AOwner: TComponent);
 begin
   inherited;
   StatStringList := TStringList.Create;
-  fielddefs.Add(FLD_TYPE,ftString,2,True);
-  fielddefs.Add(FLD_COMP_NAME,ftString,100,True);
-  fielddefs.Add(FLD_PROP_NAME,ftString,100,True);
-  fielddefs.Add(FLD_ORIG_VALUE,ftMemo,0,True);
-  fielddefs.Add(FLD_TRX,ftMemo,0,False);
-  fielddefs.Add(FLD_STATUS,ftString,1,True);
+  fielddefs.Add(FLD_TYPE,ftWideString,2,True);
+  fielddefs.Add(FLD_COMP_NAME,ftWideString,100,True);
+  fielddefs.Add(FLD_PROP_NAME,ftWideString,100,True);
+  fielddefs.Add(FLD_ORIG_VALUE,ftWideString,MEMO_MAX_SIZE,True);
+  fielddefs.Add(FLD_TRX,ftWideString,MEMO_MAX_SIZE,False);
+  fielddefs.Add(FLD_STATUS,ftWideString,1,True);
   fielddefs.Add(FLD_DELETED,ftBoolean,0,True);
-  fielddefs.Add(FLD_CLASSNAME,ftString,50,False);
-  fielddefs.Add(FLD_ORIG_STR,ftString,STR_SIZE,False);
-  fielddefs.Add(FLD_TRX_STR,ftString,STR_SIZE,False);
+  fielddefs.Add(FLD_CLASSNAME,ftWideString,50,False);
+  fielddefs.Add(FLD_ORIG_STR,ftWideString,STR_SIZE,False);
+  fielddefs.Add(FLD_TRX_STR,ftWideString,STR_SIZE,False);
 end;
 
 constructor TCDSTranslator.CreateCDSTranslator(AOwner: TComponent;
@@ -2203,8 +2221,8 @@ end;
 constructor TCDSTrxPropList.Create(AOwner: TComponent);
 begin
   inherited;
-  fielddefs.Add(FLD_CTRLCLASSNAME,ftString,50,True);
-  fielddefs.Add(FLD_PROP_NAME,ftString,50,True);
+  fielddefs.Add(FLD_CTRLCLASSNAME,ftWideString,50,True);
+  fielddefs.Add(FLD_PROP_NAME,ftWideString,50,True);
   fielddefs.Add(FLD_PROPTRXKIND,ftInteger,0,True);
   FRegisteredClassList := TStringList.Create;
   FRegisteredClassList.Sorted := True;
@@ -2265,6 +2283,71 @@ begin
   End;
 end;
 
+procedure TTrxClientDataSet.ConvertInUnicodeFormat(const FileName: string);
+var
+  LOldLine, LNewLine : string;
+  FileChanged: Boolean;
+  LStringList: TStringList;
+
+  function ReplaceLine(const AOldLine: string; out ANewLine: string): Boolean;
+  var
+    LPos1, LPos2, LValue: Integer;
+  begin
+    if AOldLine.StartsWith('<FIELD attrname=') then
+    begin
+      if Pos('fieldtype="string"', AOldLine)> 0 then
+      begin
+        ANewLine := StringReplace(AOldLine, 'fieldtype="string"', 'fieldtype="string.uni"', []);
+        LPos1 := Pos('WIDTH="', ANewLine)+7;
+        LPos2 := Pos('"', ANewLine, LPos1)-1;
+        LValue := StrToInt(Copy(ANewLine, LPos1, LPos2-LPos1+1));
+        ANewLine := Copy(ANewLine, 1, LPos1-1)+IntToStr(LValue*2)+Copy(ANewLine,LPos2+1,MaxInt);
+      end
+      else if Pos('fieldtype="bin.hex"', AOldLine)> 0 then
+      begin
+        ANewLine := StringReplace(AOldLine, 'fieldtype="bin.hex"', 'fieldtype="string.uni"', []);
+        ANewLine := StringReplace(ANewLine, 'SUBTYPE="Text"', 'WIDTH="-8"', []);
+      end
+      else
+        ANewLine := AOldLine;
+    end
+    else
+      ANewLine := AOldLine;
+    Result := AOldLine <> ANewLine;
+  end;
+
+begin
+  LStringList := TStringList.Create;
+  Try
+    LStringList.LoadFromFile(FileName, TEncoding.UTF8);
+    FileChanged := False;
+    for var I := 0 to LStringList.Count-1 do
+    begin
+      // legge una riga del file
+      LOldLine := LStringList[I];
+      // Se è una riga da convertire, la converto:
+      if ReplaceLine(LOldLine, LNewLine) then
+      begin
+        FileChanged := True;
+        LStringList[I] := LNewLine;
+      end;
+    end;
+    if FileChanged then
+    begin
+      var LStream := TStringStream.Create('',TEncoding.UTF8);
+      try
+        LStringList.SaveToStream(LStream);
+        LStream.SaveToFile(FileName);
+      finally
+        LStream.Free;
+      end;
+      //LStringList.SaveToFile(FileName, TEncoding.UTF8);
+    end;
+  Finally
+    LStringList.Free;
+  End;
+end;
+
 procedure TTrxClientDataSet.OpenCDS;
 begin
   if FileName = '' then
@@ -2277,6 +2360,9 @@ begin
   else
   begin
     IndexFieldNames := '';
+    //Convert old non-unicode format
+    if UpdateRepositoryFiles then
+      ConvertInUnicodeFormat(FileName);
     Open;
   end;
   if not UpdateRepositoryFiles then
@@ -2352,7 +2438,6 @@ var
   F : TextFile;
   S : string;
   XMLSource, XMLOutPut : string;
-
 begin
   XMLSource := '';
   // legge il file
@@ -2457,7 +2542,7 @@ procedure TTrxClientDataSet.DeleteLockFile;
 begin
   if FLockedFile and FileExists(LockFileName) then
   begin
-    SysUtils.DeleteFile(LockFileName);
+    System.SysUtils.DeleteFile(LockFileName);
     FLockedFile := False;
   end;  
 end;
@@ -2541,10 +2626,10 @@ constructor TCDSTrxRepository.Create(AOwner: TComponent);
 begin
   inherited;
   StatStringList := TStringList.Create;
-  fielddefs.Add(FLD_ORIG_VALUE,ftString,250,True);
-  fielddefs.Add(FLD_TRX,ftString,250,False);
+  fielddefs.Add(FLD_ORIG_VALUE,ftWideString,250,True);
+  fielddefs.Add(FLD_TRX,ftWideString,250,False);
   fielddefs.Add(FLD_COUNT,ftInteger,0,False);
-  fielddefs.Add(FLD_STATUS,ftString,1,True);
+  fielddefs.Add(FLD_STATUS,ftWideString,1,True);
   ResetFilterSpec;
 end;
 

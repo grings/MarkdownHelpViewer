@@ -112,7 +112,7 @@ const
   function ORIG_DISPLABEL     : string; begin Result := GetMsgMultiLanguage(UN,'ORIG_DISPLABEL',
     'Testo originale', 'Original text'); end;
   function COUNT_DISPLABEL    : string; begin Result := GetMsgMultiLanguage(UN,'COUNT_DISPLABEL',
-    'Occorrenze', 'Occurrences '); end;
+    'Occorrenze', 'Occurrences'); end;
   function TYPE_DISPLABEL     : string; begin Result := GetMsgMultiLanguage(UN,'TYPE_DISPLABEL',
     'Tipo','Type'); end;
   function COMPNAME_DISPLABEL : string; begin Result := GetMsgMultiLanguage(UN,'COMPNAME_DISPLABEL',
@@ -207,7 +207,7 @@ const
   function DIALOG_TXT_FILTER   : string; begin Result := GetMsgMultiLanguage(UN, 'DIALOG_TXT_FILTER'   ,
     'File di testo (*.txt)|*.txt','Text files (*.txt)|*.txt'); end;
   function SEARCH_INALL_FILES  : string; begin Result := GetMsgMultiLanguage(UN, 'SEARCH_INALL_FILES'  ,
-    'Ricerca terminata: proseguire la ricerca nei files successivi?', 'Finished search: do you continue the search in the next files? '); end;
+    'Ricerca terminata: proseguire la ricerca nei files successivi?', 'Finished search: do you continue the search in the next files?'); end;
   function DELETE_FILE  : string; begin Result := GetMsgMultiLanguage(UN, 'DELETE_FILE'  ,
     'Vuoi cancellare il file "%s"?', 'Do you want delete the file "%s"?'); end;
   function CANNOT_DELETE_FILE  : string; begin Result := GetMsgMultiLanguage(UN, 'CANNOT_DELETE_FILE'  ,

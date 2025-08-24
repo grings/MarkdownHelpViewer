@@ -84,7 +84,7 @@ object MDSettingsForm: TMDSettingsForm
         object ProcessorDialectComboBox: TComboBox
           Left = 15
           Top = 40
-          Width = 202
+          Width = 260
           Height = 23
           Style = csDropDownList
           TabOrder = 0
@@ -93,9 +93,9 @@ object MDSettingsForm: TMDSettingsForm
             'CommonMark')
         end
         object ShowDialectSelectionCheckBox: TCheckBox
-          Left = 232
+          Left = 281
           Top = 43
-          Width = 157
+          Width = 300
           Height = 17
           Caption = 'Show selection in Viewer'
           TabOrder = 1
@@ -110,6 +110,14 @@ object MDSettingsForm: TMDSettingsForm
         Align = alTop
         Caption = 'Toolbar'
         TabOrder = 3
+        object ToolButtonWidthLabel: TLabel
+          Left = 461
+          Top = 24
+          Width = 76
+          Height = 15
+          Alignment = taRightJustify
+          Caption = 'Buttons Width'
+        end
         object ShowCaptionCheckBox: TCheckBox
           Left = 15
           Top = 24
@@ -117,6 +125,7 @@ object MDSettingsForm: TMDSettingsForm
           Height = 17
           Caption = 'Show Captions'
           TabOrder = 0
+          OnClick = ShowCaptionCheckBoxClick
         end
         object ColoredIconsCheckBox: TCheckBox
           Left = 152
@@ -134,6 +143,16 @@ object MDSettingsForm: TMDSettingsForm
           Caption = 'Rounded buttons'
           TabOrder = 2
         end
+        object ToolButtonWidthEdit: TSpinEdit
+          Left = 544
+          Top = 19
+          Width = 47
+          Height = 24
+          MaxValue = 99
+          MinValue = 60
+          TabOrder = 3
+          Value = 60
+        end
       end
       object UserInterfaceGroupBox: TGroupBox
         AlignWithMargins = True
@@ -144,6 +163,7 @@ object MDSettingsForm: TMDSettingsForm
         Align = alTop
         Caption = 'User interface'
         TabOrder = 0
+        ExplicitLeft = 2
         object UILabel: TLabel
           Left = 15
           Top = 23
@@ -155,7 +175,7 @@ object MDSettingsForm: TMDSettingsForm
         object UIComboBox: TComboBox
           Left = 15
           Top = 40
-          Width = 202
+          Width = 260
           Height = 23
           Style = csDropDownList
           TabOrder = 0
@@ -408,6 +428,47 @@ object MDSettingsForm: TMDSettingsForm
         TabOrder = 1
       end
     end
+    object tsUpdates: TTabSheet
+      Caption = 'Updates'
+      ImageIndex = 7
+      ImageName = 'update'
+      object UpdateGroupBox: TGroupBox
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
+        Width = 622
+        Height = 94
+        Align = alTop
+        TabOrder = 0
+        object CheckNDaysLabel: TLabel
+          Left = 17
+          Top = 39
+          Width = 278
+          Height = 16
+          AutoSize = False
+          Caption = 'Interval in days:'
+        end
+        object AutoUpdateCheckBox: TCheckBox
+          Left = 17
+          Top = 16
+          Width = 278
+          Height = 17
+          Caption = 'Automatic check'
+          TabOrder = 0
+          OnClick = AutoUpdateCheckBoxClick
+        end
+        object CheckNDaysSpinEdit: TSpinEdit
+          Left = 17
+          Top = 60
+          Width = 90
+          Height = 24
+          MaxValue = 365
+          MinValue = -1
+          TabOrder = 1
+          Value = 0
+        end
+      end
+    end
   end
   object StatusBar: TStatusBar
     Left = 0
@@ -456,9 +517,16 @@ object MDSettingsForm: TMDSettingsForm
         Caption = 'PDF Layout'
         ImageIndex = 6
         ImageName = 'pdf-box'
+      end
+      item
+        Caption = 'Updates'
+        ImageIndex = 5
+        ImageName = 'update'
       end>
     TabOrder = 2
     OnButtonClicked = MenuButtonGroupButtonClicked
+    ExplicitLeft = -2
+    ExplicitTop = 47
   end
   object TitlePanel: TPanel
     Left = 0
@@ -568,6 +636,21 @@ object MDSettingsForm: TMDSettingsForm
           '9H5.5V15H7V13H8A1.5,1.5 0 0,0 9.5,11.5V10.5M14.5,10.5A1.5,1.5 0 ' +
           '0,0 13,9H10.5V15H13A1.5,1.5 0 0,0 14.5,13.5V10.5M18.5,9H15.5V15H' +
           '17V13H18.5V11.5H17V10.5H18.5V9Z" /></svg>'
+      end
+      item
+        IconName = 'update'
+        SVGText = 
+          '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg PUBLIC "-//W' +
+          '3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg' +
+          '11.dtd"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="htt' +
+          'p://www.w3.org/1999/xlink" version="1.1" id="mdi-update" width="' +
+          '24" height="24" viewBox="0 0 24 24"><path d="M21,10.12H14.22L16.' +
+          '96,7.3C14.23,4.6 9.81,4.5 7.08,7.2C4.35,9.91 4.35,14.28 7.08,17C' +
+          '9.81,19.7 14.23,19.7 16.96,17C18.32,15.65 19,14.08 19,12.1H21C21' +
+          ',14.08 20.12,16.65 18.36,18.39C14.85,21.87 9.15,21.87 5.64,18.39' +
+          'C2.14,14.92 2.11,9.28 5.62,5.81C9.13,2.34 14.76,2.34 18.27,5.81L' +
+          '21,3V10.12M12.5,8V12.25L16,14.33L15.28,15.54L11,13V8H12.5Z" /></' +
+          'svg>'
       end>
     Scaled = True
     Left = 396

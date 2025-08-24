@@ -46,7 +46,9 @@ uses
 
 type
   TMainForm = class(TFormHook)
-    acFileOpen: TFileOpen;
+    OpenDialog: TFileOpenDialog;
+    ActionList: TActionList;
+    acOpenFile: TAction;
     PageControl: TPageControl;
     tsIndex: TTabSheet;
     tsFiles: TTabSheet;
@@ -56,7 +58,6 @@ type
     edFileSearch: TEdit;
     btIndex: TButton;
     btSearch: TButton;
-    btSearchView: TButton;
     edSearch: TEdit;
     lbSearch: TLabel;
     SearchListBox: TListBox;
@@ -69,7 +70,6 @@ type
     acHome: TAction;
     acSettings: TAction;
     acShow: TAction;
-    TActionList: TActionList;
     Splitter: TSplitter;
     acAbout: TAction;
     paTop: TPanel;
@@ -87,7 +87,9 @@ type
     btExportHTML: TToolButton;
     lbSelectFile: TLabel;
     acPrint: TAction;
-    SaveDialog: TSaveDialog;
+    SaveDialog: TFileSaveDialog;
+    SaveDialogPDF: TFileSaveDialog;
+    SaveDialogHTML: TFileSaveDialog;
     btSaveToPdf: TToolButton;
     acSaveToPDF: TAction;
     Sep4: TToolButton;
@@ -101,11 +103,12 @@ type
     btRefresh: TToolButton;
     acExportHTML: TAction;
     ProcessorDialectLabel: TLabel;
+    btSearchView: TButton;
     procedure FormCreate(Sender: TObject);
-    procedure acFileOpenAccept(Sender: TObject);
+    procedure acOpenFileExecute(Sender: TObject);
     procedure acSettingsExecute(Sender: TObject);
     procedure acHideExecute(Sender: TObject);
-    procedure TActionListUpdate(Action: TBasicAction; var Handled: Boolean);
+    procedure ActionListUpdate(Action: TBasicAction; var Handled: Boolean);
     procedure acShowExecute(Sender: TObject);
     procedure ProcessorDialectComboBoxSelect(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -167,6 +170,12 @@ type
     function DialogPosRect: TRect;
     procedure LoadAndTransformFile(const AFileName: TFileName);
     procedure UpdateGui;
+    procedure InitDialog(const ADialog: TCustomFileDialog;
+      const ADefaultFolder: string);
+    procedure InitPDFDialog(const ADialog: TCustomFileDialog;
+      const ADefaultFolder: string);
+    procedure InitHTMLDialog(const ADialog: TCustomFileDialog;
+      const ADefaultFolder: string);
     procedure UpdateFromSettings;
     procedure WriteSettingsToIni;
     procedure UpdateApplicationStyle(const AVCLStyleName: string);
@@ -198,6 +207,7 @@ type
     procedure UpdateWindowPos;
     function GetDialectSelectionVisible: Boolean;
     function GetToolbarWidth: Integer;
+    function GetIndexOfWorkingFolder(const AWorkingFolder: string): TFileName;
     property HTMLFontSize: Integer read FHTMLFontSize write SetHTMLFontSize;
     property HTMLFontName: string read FHTMLFontName write SetHTMLFontName;
     property WorkingFolder: string read FWorkingFolder write SetWorkingFolder;
@@ -227,6 +237,7 @@ implementation
 uses
   MarkdownProcessor
   , MarkDownUtils
+  , System.Math
   , System.UITypes
   , System.IOUtils
   , MDHelpView.SettingsForm
@@ -271,7 +282,7 @@ uses
 
 procedure TMainForm.acAboutExecute(Sender: TObject);
 begin
-  ShowAboutForm(DialogPosRect, Title_MDHViewer);
+  ShowAboutForm(DialogPosRect, Title_MDHViewer, False);
 end;
 
 procedure TMainForm.acExportHTMLExecute(Sender: TObject);
@@ -303,7 +314,6 @@ var
   end;
 
 begin
-  SaveDialog.Filter := Format('%s (*.htm)|*.htm', [HTML_FILES]);
   LOutputFolder := IncludeTrailingPathDelimiter(WorkingFolder)+'..\WebHelp\';
   LResult := MessageDlg(
     Format(CONFIRM_EXPORT_HTML, [FileListBox.Count]),
@@ -314,14 +324,13 @@ begin
   begin
     LFileName := LOutputFolder+
       ExtractFileName(ChangeFileExt(FCurrentFileName, '.htm'));
-    SaveDialog.InitialDir := ExtractFilePath(LFileName);
-    SaveDialog.FileName := LFileName;
-    if SaveDialog.Execute then
+    SaveDialogHTML.FileName := LFileName;
+    if SaveDialogHTML.Execute then
     begin
       Screen.Cursor := crHourGlass;
       try
-        ConvertAndSaveFile(FCurrentFileName, SaveDialog.FileName);
-        FileSavedAskToOpen(SaveDialog.FileName);
+        ConvertAndSaveFile(FCurrentFileName, SaveDialogHTML.FileName);
+        FileSavedAskToOpen(SaveDialogHTML.FileName);
       finally
         Screen.Cursor := crDefault;
       end;
@@ -335,13 +344,12 @@ begin
     else
       LFileName := LOutputFolder+
         ExtractFileName(ChangeFileExt(FCurrentFileName, '.htm'));
-    SaveDialog.InitialDir := ExtractFilePath(LFileName);
-    SaveDialog.FileName := LFileName;
-    if SaveDialog.Execute then
+    SaveDialogHTML.FileName := LFileName;
+    if SaveDialogHTML.Execute then
     begin
       Screen.Cursor := crHourGlass;
       try
-        LFileName := SaveDialog.FileName;
+        LFileName := SaveDialogHTML.FileName;
         LOutputFolder := IncludeTrailingPathDelimiter(
           ExtractFilePath(LFileName));
         for I := 0 to FileListBox.Count -1 do
@@ -362,9 +370,10 @@ begin
   acExportHTML.Enabled := FileExists(FCurrentFileName);
 end;
 
-procedure TMainForm.acFileOpenAccept(Sender: TObject);
+procedure TMainForm.acOpenFileExecute(Sender: TObject);
 begin
-  LoadAndTransformFile(acFileOpen.Dialog.FileName);
+  if OpenDialog.Execute then
+    LoadAndTransformFile(OpenDialog.FileName);
 end;
 
 procedure TMainForm.acShowExecute(Sender: TObject);
@@ -437,7 +446,10 @@ var
   LDim: Integer;
 begin
   //calculation dimension to reduce
-  Ldim := PageControl.Width - Splitter.Width;
+  if WindowState <> TWindowState.wsMaximized then
+    Ldim := PageControl.Width - Splitter.Width
+  else
+    ldim := 0;
 
   ClientPanel.OnResize := nil;
   try
@@ -468,14 +480,13 @@ end;
 
 procedure TMainForm.acSaveToPDFExecute(Sender: TObject);
 begin
-  SaveDialog.FileName := ChangeFileExt(FCurrentFileName, '.pdf');
-  SaveDialog.Filter := Format('%s (*.pdf)|*.pdf', [PDF_FILES]);
-  if SaveDialog.Execute then
+  SaveDialogPDF.FileName := ChangeFileExt(FCurrentFileName, '.pdf');
+  if SaveDialogPDF.Execute then
   begin
     Screen.Cursor := crHourGlass;
     try
-      HTMLToPDF(SaveDialog.FileName);
-      FileSavedAskToOpen(SaveDialog.FileName);
+      HTMLToPDF(SaveDialogPDF.FileName);
+      FileSavedAskToOpen(SaveDialogPDF.FileName);
     finally
       Screen.Cursor := crDefault;
     end;
@@ -600,8 +611,8 @@ begin
   FViewerSettings.WindowState := Self.WindowState;
 
   Self.WindowState := TWindowState.wsNormal;
-  FViewerSettings.WindowLeft := Round(Self.Left / ScaleFactor);
-  FViewerSettings.WindowTop := Round(Self.Top / ScaleFactor);
+  FViewerSettings.WindowLeft := Round(Max(Self.Left,0) / ScaleFactor);
+  FViewerSettings.WindowTop := Round(Max(Self.Top,0) / ScaleFactor);
   FViewerSettings.WindowWidth := Round(Self.ClientWidth / ScaleFactor);
   FViewerSettings.WindowHeight := Round(Self.ClientHeight / ScaleFactor);
 
@@ -609,21 +620,11 @@ begin
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
-var
-  LMarkdownMasks, LHTMLMasks: string;
 begin
   Screen.MessageFont.Size := Round(Screen.MessageFont.Size*1.2);
   {$IFDEF STYLEDCOMPONENTS}
   InitializeStyledTaskDialogs(True, Screen.MessageFont);
   {$ENDIF}
-
-  LMarkdownMasks := GetFileMasks(AMarkdownFileExt);
-  LHTMLMasks := GetFileMasks(AHTMLFileExt);
-  acFileOpen.Dialog.Filter :=
-    Format('%s (%s)|%s', [MARKDOWN_FILES, LMarkdownMasks, LMarkdownMasks])+'|'+
-    Format('%s (%s)|%s', [HTML_FILES, LHTMLMasks, LHTMLMasks]);
-
-  SaveDialog.Filter := acFileOpen.Dialog.Filter;
 
   PageControl.ActivePageIndex := 0;
   FOldViewerResize := ClientPanel.Width;
@@ -669,6 +670,55 @@ begin
     TransformTo(HtmlViewer, FMdContent, True, True);
     TransformTo(HtmlViewerIndex, FMdIndexContent, True, True);
     Handled := True;
+  end;
+end;
+
+procedure TMainForm.InitDialog(const ADialog: TCustomFileDialog;
+  const ADefaultFolder: string);
+var
+  LMarkdownMasks, LHTMLMasks: string;
+begin
+  LMarkdownMasks := GetFileMasks(AMarkdownFileExt);
+  LHTMLMasks := GetFileMasks(AHTMLFileExt);
+
+  ADialog.DefaultFolder := ADefaultFolder;
+  // Add File Filters
+  with ADialog.FileTypes.Add do
+  begin
+    DisplayName := MARKDOWN_FILES;
+    FileMask := LMarkdownMasks;
+  end;
+  with ADialog.FileTypes.Add do
+  begin
+    DisplayName := HTML_FILES;
+    FileMask := LHTMLMasks;
+  end;
+end;
+
+procedure TMainForm.InitPDFDialog(const ADialog: TCustomFileDialog;
+  const ADefaultFolder: string);
+begin
+  ADialog.DefaultFolder := ADefaultFolder;
+  // Add File Filters
+  with ADialog.FileTypes.Add do
+  begin
+    DisplayName := PDF_FILES;
+    FileMask := '*.pdf';
+  end;
+end;
+
+procedure TMainForm.InitHTMLDialog(const ADialog: TCustomFileDialog;
+  const ADefaultFolder: string);
+var
+  LHTMLMasks: string;
+begin
+  LHTMLMasks := GetFileMasks(AHTMLFileExt);
+  ADialog.DefaultFolder := ADefaultFolder;
+  // Add File Filters
+  with ADialog.FileTypes.Add do
+  begin
+    DisplayName := HTML_FILES;
+    FileMask := LHTMLMasks;
   end;
 end;
 
@@ -808,11 +858,21 @@ begin
         CurrentCSSFileName := '';
       end;
 
-      WorkingFolder := LWorkingFolder;
-      if Result and (CurrentIndexFileName = '') then
+      if WorkingFolder <> LWorkingFolder then
       begin
+        WorkingFolder := LWorkingFolder;
+        //Search an Index Name similar to AFileName
         LIndexFileName := GetIndexFileName(AFileName, AMarkdownFileExt);
-        if LIndexFileName <> '' then
+        if LIndexFileName = '' then
+          LIndexFileName := GetIndexOfWorkingFolder(LWorkingFolder);
+        if (LIndexFileName <> '') then
+          LoadAndTransformFileIndex(LIndexFileName);
+      end
+      else
+      begin
+        //Search an Index Name similar to AFileName
+        LIndexFileName := GetIndexFileName(AFileName, AMarkdownFileExt);
+        if (LIndexFileName <> '') then
           LoadAndTransformFileIndex(LIndexFileName);
       end;
     end;
@@ -944,6 +1004,49 @@ begin
     TransformTo(HtmlViewerIndex, FMdIndexContent, True, False);
 end;
 
+procedure TMainForm.ActionListUpdate(Action: TBasicAction;
+  var Handled: Boolean);
+var
+  InitialDir: string;
+  LFileName: TFileName;
+begin
+  if not FFirstTime then
+  begin
+    FFirstTime := True;
+
+    //automatically load the file that is passed as the first parameter
+    LFileName := ParamStr(1);
+    if FileExists(LFileName) then
+    begin
+      //Load file passed at command line
+      InitialDir := ExtractFilePath(LFileName);
+      LoadAndTransformFile(LFileName);
+    end
+    else
+      InitialDir := '.';
+
+    //Initialize Open and Save Dialog with application path
+    InitDialog(OpenDialog, InitialDir);
+    InitDialog(SaveDialog, InitialDir);
+    InitPDFDialog(SaveDialogPDF, InitialDir);
+    InitHTMLDialog(SaveDialogHTML, InitialDir);
+
+    //Check for new version available
+    if FViewerSettings.IsTimeToCheckNewVersion then
+    begin
+      if AcceptNewSetup(False) then
+        ShowAboutForm(DialogPosRect, Title_MDHViewer, True);
+    end;
+  end;
+
+  if FRememberToResize then
+  begin
+    FRememberToResize := False;
+    TransformTo(HtmlViewer, FMdContent, True, False);
+  end;
+  UpdateGui;
+end;
+
 procedure TMainForm.LoadCSS(const AFileName: TFileName);
 var
   LExt: string;
@@ -1007,7 +1110,7 @@ begin
   begin
     FCurrentFileName := AValue;
     FViewerSettings.CurrentFileName := AValue;
-    acFileOpen.Dialog.FileName := FCurrentFileName;
+    OpenDialog.FileName := FCurrentFileName;
   end;
 end;
 
@@ -1055,7 +1158,7 @@ begin
   else
   begin
     ToolBar.ButtonHeight := Round(50 * ScaleFactor);
-    ToolBar.ButtonWidth := Round(70 * ScaleFactor);
+    ToolBar.ButtonWidth := Round(FViewerSettings.ToolbarButtonWidth * ScaleFactor);
   end;
   ToolBar.Height := ToolBar.ButtonHeight + Round(4 * ScaleFactor);
   paTop.Height := ToolBar.Height;
@@ -1070,55 +1173,55 @@ begin
     if Value then
     begin
       ToolBar.Images := SVGIconImageListColored;
-      TActionList.Images := SVGIconImageListColored;
+      ActionList.Images := SVGIconImageListColored;
     end
     else
     begin
       ToolBar.Images := SVGIconImageList;
-      TActionList.Images := SVGIconImageList;
+      ActionList.Images := SVGIconImageList;
       UpdateIconsColorByStyle;
     end;
     FUseColoredIcons := Value;
   end;
 end;
 
-procedure TMainForm.SetWorkingFolder(const Value: string);
+function TMainForm.GetIndexOfWorkingFolder(const AWorkingFolder: string): TFileName;
 var
-  FolderPath: string;
   LFileName: TFileName;
+begin
+  //Search and Index file into Working Folder as Index.md or Index.html
+  Result := '';
+  LFileName := AWorkingFolder;
+  if FMdContent <> '' then
+  begin
+    FileListBox.Mask := GetFileMasks(AMarkdownFileExt);
+    //Search for Index(.markdown extension) file into this folder
+    if FindHelpFile(LFileName, 0, 'Index', AMarkdownFileExt) then
+      Result := LFileName;
+  end
+  else
+  begin
+    FileListBox.Mask := GetFileMasks(AHTMLFileExt);
+    //Search for Index(.html extension) file into this folder
+    if FindHelpFile(LFileName, 0, 'Index', AHTMLFileExt) then
+      Result := LFileName;
+  end;
+end;
+
+procedure TMainForm.SetWorkingFolder(const Value: string);
 begin
   //Set working folder
   if FWorkingFolder <> Value then
   begin
-    FolderPath := Value;
-    FWorkingFolder := FolderPath;
+    FWorkingFolder := Value;
     //Set root folder for HTMLViewers
-    HTMLViewer.ServerRoot := FolderPath;
-    HtmlViewerIndex.ServerRoot := FolderPath;
+    HTMLViewer.ServerRoot := FWorkingFolder;
+    HtmlViewerIndex.ServerRoot := FWorkingFolder;
 
-    LFileName := FWorkingFolder;
-    if FMdContent <> '' then
-    begin
-      FileListBox.Mask := GetFileMasks(AMarkdownFileExt);
-      //Search for Index(.markdown extension) file into this folder
-      if FindHelpFile(LFileName, 0, 'Index', AMarkdownFileExt) then
-        LoadAndTransformFileIndex(LFileName)
-      else
-        CurrentIndexFileName := '';
-    end
-    else
-    begin
-      FileListBox.Mask := GetFileMasks(AHTMLFileExt);
-      //Search for Index(.html extension) file into this folder
-      if FindHelpFile(LFileName, 0, 'Index', AHTMLFileExt) then
-        LoadAndTransformFileIndex(LFileName)
-      else
-        CurrentIndexFileName := '';
-    end;
     //Set root folder of FileListBox
-    if not SameText(FolderPath, IncludeTrailingPathDelimiter(FileListBox.Directory)) then
+    if not SameText(FWorkingFolder, IncludeTrailingPathDelimiter(FileListBox.Directory)) then
     begin
-      FileListBox.Directory := FolderPath;
+      FileListBox.Directory := FWorkingFolder;
       FileListBox.Update;
     end;
   end;
@@ -1219,35 +1322,11 @@ end;
 procedure TMainForm.UpdateWindowPos;
 begin
   //Set Bounds of Windows
-  Self.ClientWidth := FViewerSettings.WindowWidth;
-  Self.ClientHeight := FViewerSettings.WindowHeight;
-  Self.Left := FViewerSettings.WindowLeft;
-  Self.Top := FViewerSettings.WindowTop;
+  Self.ClientWidth := Round(FViewerSettings.WindowWidth * ScaleFactor);
+  Self.ClientHeight := Round(FViewerSettings.WindowHeight * ScaleFactor);
+  Self.Left := Round(FViewerSettings.WindowLeft * ScaleFactor);
+  Self.Top := Round(FViewerSettings.WindowTop * ScaleFactor);
   Self.WindowState := FViewerSettings.WindowState;
-end;
-
-procedure TMainForm.TActionListUpdate(Action: TBasicAction;
-  var Handled: Boolean);
-var
-  LFileName: TFileName;
-begin
-  if not FFirstTime then
-  begin
-    FFirstTime := True;
-    //UpdateWindowPos;
-
-    //automatically load the file that is passed as the first parameter
-    LFileName := ParamStr(1);
-    if FileExists(LFileName) then
-      LoadAndTransformFile(LFileName);
-  end;
-
-  if FRememberToResize then
-  begin
-    FRememberToResize := False;
-    TransformTo(HtmlViewer, FMdContent, True, False);
-  end;
-  UpdateGui;
 end;
 
 procedure TMainForm.UpdateFromSettings;
@@ -1283,6 +1362,7 @@ begin
     Toolbar.StyleDrawType := btRoundRect;
   end;
   {$ENDIF}
+  Toolbar.ButtonWidth := Round(FViewerSettings.ToolbarButtonWidth * ScaleFactor);
 
   PageControl.Visible := FViewerSettings.PageControlVisible;
   PageControl.Width := Round(FViewerSettings.PageControlSize * Self.ScaleFactor);

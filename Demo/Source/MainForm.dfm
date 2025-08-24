@@ -335,8 +335,7 @@ object fmMain: TfmMain
       Height = 385
       Align = alClient
       TabOrder = 0
-      ExplicitLeft = 2
-      ExplicitTop = 22
+      RescalingImage = True
     end
   end
   object MainMenu: TMainMenu

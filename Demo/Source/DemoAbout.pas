@@ -29,7 +29,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
-  StdCtrls, ExtCtrls;
+  StdCtrls, ExtCtrls, Vcl.Imaging.pngimage;
 
 resourcestring
   Title_MDHViewer = 'Markdown Help Viewer';

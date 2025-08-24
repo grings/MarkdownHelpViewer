@@ -7,16 +7,16 @@
 :stat-->  <DATAPACKET Version="2.0">
 <METADATA>
 <FIELDS>
-<FIELD attrname="Type" fieldtype="string" required="true" WIDTH="2"/>
-<FIELD attrname="ComponentName" fieldtype="string" required="true" WIDTH="100"/>
-<FIELD attrname="PropertyName" fieldtype="string" required="true" WIDTH="100"/>
-<FIELD attrname="OriginalValue" fieldtype="bin.hex" required="true" SUBTYPE="Text"/>
-<FIELD attrname="Translation" fieldtype="bin.hex" SUBTYPE="Text"/>
-<FIELD attrname="Status" fieldtype="string" required="true" WIDTH="1"/>
+<FIELD attrname="Type" fieldtype="string.uni" required="true" WIDTH="4"/>
+<FIELD attrname="ComponentName" fieldtype="string.uni" required="true" WIDTH="200"/>
+<FIELD attrname="PropertyName" fieldtype="string.uni" required="true" WIDTH="200"/>
+<FIELD attrname="OriginalValue" fieldtype="string.uni" required="true" WIDTH="-8"/>
+<FIELD attrname="Translation" fieldtype="string.uni" WIDTH="-8"/>
+<FIELD attrname="Status" fieldtype="string.uni" required="true" WIDTH="2"/>
 <FIELD attrname="Deleted" fieldtype="boolean" required="true"/>
-<FIELD attrname="ClassName" fieldtype="string" WIDTH="50"/>
-<FIELD attrname="OriginalStr" fieldtype="string" WIDTH="250"/>
-<FIELD attrname="TranslationStr" fieldtype="string" WIDTH="250"/>
+<FIELD attrname="ClassName" fieldtype="string.uni" WIDTH="100"/>
+<FIELD attrname="OriginalStr" fieldtype="string.uni" WIDTH="500"/>
+<FIELD attrname="TranslationStr" fieldtype="string.uni" WIDTH="500"/>
 </FIELDS>
 <PARAMS/>
 </METADATA>
@@ -52,8 +52,6 @@
 <ROW Type="F" ComponentName="btExportHTML" PropertyName="Hint" OriginalValue="Export to HTML help files" Translation="Esportare in file di aiuto HTML" Status="@" Deleted="FALSE" ClassName="TToolbutton" OriginalStr="Export to HTML help files" TranslationStr="Esportare in file di aiuto HTML"/>
 <ROW Type="F" ComponentName="btOption" PropertyName="Hint" OriginalValue="Show Settings" Translation="Mostra impostazioni" Status="@" Deleted="FALSE" ClassName="TToolbutton" OriginalStr="Show Settings" TranslationStr="Mostra impostazioni"/>
 <ROW Type="F" ComponentName="btAbout" PropertyName="Hint" OriginalValue="Show Application Information" Translation="Mostra informazioni sull&apos;applicazione" Status="@" Deleted="FALSE" ClassName="TToolbutton" OriginalStr="Show Application Information" TranslationStr="Mostra informazioni sull&apos;applicazione"/>
-<ROW Type="F" ComponentName="acFileOpen" PropertyName="Caption" OriginalValue="&amp;Open..." Translation="&amp;Apri..." Status="@" Deleted="FALSE" ClassName="TFileOpen" OriginalStr="&amp;Open..." TranslationStr="&amp;Apri..."/>
-<ROW Type="F" ComponentName="acFileOpen" PropertyName="Hint" OriginalValue="Open an existing Markdown or HTML file..." Translation="Apri un file Markdown o HTML esistente..." Status="@" Deleted="FALSE" ClassName="TFileOpen" OriginalStr="Open an existing Markdown or HTML file..." TranslationStr="Apri un file Markdown o HTML esistente..."/>
 <ROW Type="F" ComponentName="acPreviousPage" PropertyName="Caption" OriginalValue="&amp;Previous" Translation="&amp;Prec." Status="*" Deleted="FALSE" ClassName="TAction" OriginalStr="&amp;Previous" TranslationStr="&amp;Prec."/>
 <ROW Type="F" ComponentName="acPreviousPage" PropertyName="Hint" OriginalValue="Previous Opened File" Translation="Precedente File aperto" Status="*" Deleted="FALSE" ClassName="TAction" OriginalStr="Previous Opened File" TranslationStr="Precedente File aperto"/>
 <ROW Type="F" ComponentName="acNextPage" PropertyName="Caption" OriginalValue="&amp;Next" Translation="&amp;Succ." Status="*" Deleted="FALSE" ClassName="TAction" OriginalStr="&amp;Next" TranslationStr="&amp;Succ."/>
@@ -83,7 +81,7 @@
 <ROW Type="F" ComponentName="acExportHTML" PropertyName="Caption" OriginalValue="Export..." Translation="Esporta..." Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Export..." TranslationStr="Esporta..."/>
 <ROW Type="F" ComponentName="acExportHTML" PropertyName="Hint" OriginalValue="Export to HTML help files" Translation="Esportare in file di aiuto HTML" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Export to HTML help files" TranslationStr="Esportare in file di aiuto HTML"/>
 <ROW Type="F" ComponentName="btShowHide" PropertyName="Caption" OriginalValue="Hide" Translation="Nascondi" Status="@" Deleted="FALSE" ClassName="TToolbutton" OriginalStr="Hide" TranslationStr="Nascondi"/>
-<ROW Type="F" ComponentName="btOpen" PropertyName="Caption" OriginalValue="&amp;Open..." Translation="&amp;Apri..." Status="@" Deleted="FALSE" ClassName="TToolbutton" OriginalStr="&amp;Open..." TranslationStr="&amp;Apri..."/>
+<ROW Type="F" ComponentName="btOpen" PropertyName="Caption" OriginalValue="Open..." Translation="&amp;Apri..." Status="@" Deleted="FALSE" ClassName="TToolbutton" OriginalStr="Open..." TranslationStr="&amp;Apri..."/>
 <ROW Type="F" ComponentName="btRefresh" PropertyName="Caption" OriginalValue="Refresh" Translation="Aggiorna" Status="@" Deleted="FALSE" ClassName="TToolbutton" OriginalStr="Refresh" TranslationStr="Aggiorna"/>
 <ROW Type="F" ComponentName="btSaveToPdf" PropertyName="Caption" OriginalValue="Save PDF" Translation="Salva PDF" Status="@" Deleted="FALSE" ClassName="TToolbutton" OriginalStr="Save PDF" TranslationStr="Salva PDF"/>
 <ROW Type="F" ComponentName="btHome" PropertyName="Caption" OriginalValue="Home" Translation="Home" Status="@" Deleted="FALSE" ClassName="TToolbutton" OriginalStr="Home" TranslationStr="Home"/>
@@ -92,5 +90,7 @@
 <ROW Type="F" ComponentName="btExportHTML" PropertyName="Caption" OriginalValue="Export..." Translation="Esporta..." Status="@" Deleted="FALSE" ClassName="TToolbutton" OriginalStr="Export..." TranslationStr="Esporta..."/>
 <ROW Type="F" ComponentName="btOption" PropertyName="Caption" OriginalValue="Settings" Translation="Impostazioni" Status="@" Deleted="FALSE" ClassName="TToolbutton" OriginalStr="Settings" TranslationStr="Impostazioni"/>
 <ROW Type="F" ComponentName="btAbout" PropertyName="Caption" OriginalValue="About" Translation="Info" Status="@" Deleted="FALSE" ClassName="TToolbutton" OriginalStr="About" TranslationStr="Info"/>
+<ROW Type="F" ComponentName="acOpenFile" PropertyName="Caption" OriginalValue="Open..." Translation="&amp;Apri..." Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Open..." TranslationStr="&amp;Apri..."/>
+<ROW Type="F" ComponentName="acOpenFile" PropertyName="Hint" OriginalValue="Open an existing Markdown or HTML file..." Translation="Apri un file Markdown o HTML esistente..." Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Open an existing Markdown or HTML file..." TranslationStr="Apri un file Markdown o HTML esistente..."/>
 </ROWDATA>
 </DATAPACKET>
